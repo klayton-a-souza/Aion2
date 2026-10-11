@@ -1,0 +1,1 @@
+var AION_DEFAULTS={schemaVersion:"1.3.0",project:"aion-2",updatedAt:null,characters:[],activePlans:[],completedPlans:[],plans:[],nextPlanNumber:1,activities:[],activityHistory:[],activityCycles:{daily:null,weekly:null},resetSettings:{timezone:"America/Sao_Paulo",dailyTime:"00:00",weeklyDay:1,weeklyTime:"00:00"},preferences:{theme:"dark"}};

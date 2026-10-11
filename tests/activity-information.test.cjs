@@ -1,0 +1,20 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const elements=new Map();function element(id){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true,focus(){this.focused=true}});return elements.get(id)}
+const ctx=vm.createContext({document:{getElementById:element},activityAction(){},renderActivities(){},activityOwner(a){return a.scope==='account'?'Conta':a.characterName+' (personagem)'},esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}});
+vm.runInContext(fs.readFileSync('data/activities-catalog.js','utf8'),ctx);vm.runInContext(fs.readFileSync('js/catalog.js','utf8'),ctx);
+const daily=ctx.catalogModel('nightmare'),weekly=ctx.catalogModel('daily-dungeon');
+const activity={name:'Meu Pesadelo',catalogId:daily.id,description:daily.description,frequency:'daily',scope:'character',characterName:'LadyFuria',category:'Catálogo Aion 2'};
+const before=JSON.stringify(activity);ctx.showActivityInformation(activity);let html=element('activity-dialog').innerHTML;
+assert(html.includes(daily.englishName));assert(html.includes('Checklist: Diário'));assert(html.includes('LadyFuria'));assert.equal(html.split(daily.description).length-1,1);
+for(const title of ['O que é?','O que preciso fazer?','Limites e disponibilidade','Dicas importantes','Fontes'])assert(html.includes(title));
+assert(!html.includes('<h3>Como acessar?</h3>'));assert(html.includes('information-observation'));assert(html.includes(daily.limits));assert(html.includes('target="_blank" rel="noopener noreferrer"'));assert.equal(JSON.stringify(activity),before);
+assert(element('catalog-info-close').focused);element('catalog-info-close').onclick();assert(element('activity-dialog').hidden);
+ctx.showActivityInformation({...activity,catalogId:weekly.id,frequency:'daily',description:'Minha orientação exclusiva'});html=element('activity-dialog').innerHTML;
+assert(html.includes('Checklist: Diário'));assert(html.includes('a sugestão do catálogo é semanal'));assert(html.includes('Minha descrição'));assert(html.includes(weekly.description));assert(html.includes('Minha orientação exclusiva'));
+ctx.showActivityInformation({name:'Manual <script>',description:'Texto personalizado',frequency:'weekly',scope:'account',category:'Minha categoria'});html=element('activity-dialog').innerHTML;
+assert(html.includes('Checklist: Semanal'));assert(html.includes('Conta'));assert(html.includes('Minha categoria'));assert(html.includes('Texto personalizado'));assert(!html.includes('Limites e disponibilidade'));assert(!html.includes('Nightmare'));assert(!html.includes('<script>'));
+ctx.showActivityInformation({name:'Vazia',description:'',frequency:'daily',scope:'account'});assert(!element('activity-dialog').innerHTML.includes('information-section'));
+const minimal=ctx.catalogDetails({description:'Mesmo texto',objective:' Mesmo texto ',limits:'',guidance:'',unlock:'',sources:[],frequency:'daily',scope:'account'});assert.equal(minimal.split('Mesmo texto').length-1,1);assert(!minimal.includes('Fontes'));assert(!minimal.includes('Limites e disponibilidade'));
+assert(ctx.catalogDetails(ctx.catalogModel('journal-duties')).includes('Como acessar?'));assert(ctx.catalogDetails(ctx.catalogModel('monster-kinah')).includes('Referência histórica'));
+assert(!ctx.catalogSources([{url:'javascript:alert(1)',name:'Inseguro'}]));
+console.log('PASS informações: hierarquia compartilhada, frequência real, personagem, descrição única/personalizada, campos ausentes, incertezas, referências históricas, links seguros, fechamento/foco e dados inalterados em ambiente simulado.');

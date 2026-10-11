@@ -14,6 +14,10 @@ Chrome e Edge são os alvos recomendados para validação manual; não foram tes
 
 ## Personagens e dashboard
 
+O banner de apresentação foi substituído por um painel compacto: um único seletor, nome/classe/tipo reais, iLvl em destaque e resumo do plano individual com descrição, progresso, etapa e próximo objetivo. O card inferior mantém apenas os objetivos interativos e as ações, sem duplicar a barra ou o resumo. A ausência de personagem/plano e o estado de 100% são tratados sem criar dados ou concluir planos automaticamente.
+
+Seções expansíveis começam recolhidas: etapas de planos, listas diárias/semanais, informações do catálogo e recursos. Durante a sessão, as expansões são preservadas por ID ao atualizar checklists, percentuais e indicadores, inclusive ao navegar entre páginas. Recarregar a aplicação volta ao padrão recolhido. Esse estado é temporário em memória, sem gravação nos dados; menu lateral, modais e seletores são exceções. Títulos e indicadores de progresso continuam visíveis.
+
 No dashboard, escolha **Ver personagens** ou abra **Personagens** no menu (`#characters`). A página exclusiva concentra **Novo personagem**, cards, edição e exclusão. Informe nome, classe e iLvl manual numérico não negativo; servidor e facção são opcionais. O primeiro cadastro é definido como principal quando não existe um. É possível trocar ou remover essa definição pelo formulário; só um personagem pode ser principal. A data de atualização do iLvl muda quando o valor muda.
 
 A Visão Geral (`#home`) permite acompanhar e marcar objetivos e atividades do personagem selecionado. As outras páginas usam `#progression` e `#activities`; os hashes permitem acesso direto e histórico Voltar/Avançar. O esquema atual é 1.4.0.

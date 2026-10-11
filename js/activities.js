@@ -1,4 +1,4 @@
-var activityVisibility={dashboard:{daily:false,weekly:false},management:{daily:false,weekly:false}};
+var activityVisibility={dashboard:{daily:true,weekly:true},management:{daily:true,weekly:true}};
 function activityVisibilityButton(context,frequency){var collapsed=activityVisibility[context][frequency],id=context+'-activity-list-'+frequency;return '<button type="button" class="button button-ghost" id="'+context+'-activity-toggle-'+frequency+'" aria-controls="'+id+'" aria-expanded="'+(!collapsed)+'">'+(collapsed?'Exibir atividades':'Ocultar atividades')+'</button>'}
 function bindActivityVisibility(context){['daily','weekly'].forEach(function(f){var button=document.getElementById(context+'-activity-toggle-'+f);if(button)button.onclick=function(){activityVisibility[context][f]=!activityVisibility[context][f];if(context==='dashboard')renderDashboard();else renderActivities()}})}
 var activityFilters={character:"",status:"all",frequency:"all"};

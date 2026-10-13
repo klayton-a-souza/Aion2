@@ -6,6 +6,12 @@ var CHARACTER_GUIDES={
   ladyfuria:"https://aion2.gaming.tools/pt-br/builds/cleric/leveling"
 };
 function characterGuideUrl(name){var key=String(name||"").trim().toLowerCase();return Object.prototype.hasOwnProperty.call(CHARACTER_GUIDES,key)?CHARACTER_GUIDES[key]:null}
+var CHARACTER_PVE_GUIDES=[
+  {names:["l0rdfuria"],classes:["assassino","assassina","assassin"],url:"https://aion2.gaming.tools/pt-br/builds/assassin/pve"},
+  {names:["warriorl0rd","warri0rlord"],classes:["templario","templaria","templar"],url:"https://aion2.gaming.tools/pt-br/builds/templar/pve"},
+  {names:["ladyfuria"],classes:["clerigo","cleriga","cleric"],url:"https://aion2.gaming.tools/pt-br/builds/cleric/pve"}
+];
+function characterPveGuideUrl(c){var name=String(c.name||"").trim().toLowerCase(),className=String(c.className||"").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");var guide=CHARACTER_PVE_GUIDES.find(function(g){return g.names.indexOf(name)>=0&&g.classes.indexOf(className)>=0});return guide?guide.url:null}
 // Aliases explícitos fornecidos para o mesmo perfil; nunca usa busca aproximada.
 var CHARACTER_SHUGO_PROFILES=[
   {names:["l0rdfuria"],url:"https://shugo.gg/character/global/la-triniel/L0rdFuria"},

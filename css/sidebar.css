@@ -1,7 +1,22 @@
+.sidebar{position:sticky;top:0;align-self:flex-start;height:100vh;height:100dvh;overflow-y:auto}
 .sidebar-toggle{margin-bottom:24px;min-height:44px;white-space:nowrap}
 .sidebar.is-collapsed{width:72px;padding:20px 12px}
 .sidebar.is-collapsed .brand,.sidebar.is-collapsed nav,.sidebar.is-collapsed .sidebar-footer,.sidebar.is-collapsed .sidebar-toggle span{display:none}
 .sidebar.is-collapsed .sidebar-toggle{width:100%;padding:10px;margin:0}
-@media(max-width:760px){.sidebar{position:static;height:auto;overflow-y:visible}.sidebar.is-collapsed{width:100%;padding:12px 16px}.sidebar.is-collapsed .sidebar-toggle{width:auto}.sidebar.is-collapsed .sidebar-toggle span{display:inline}}
-.sidebar{position:sticky;top:0;align-self:flex-start;height:100vh;height:100dvh;overflow-y:auto}
 .sidebar-toggle,.sidebar .brand,.sidebar nav,.sidebar-footer{flex-shrink:0}
+.nav-item{font:inherit;min-height:44px}
+.sidebar nav{padding:4px}
+@media(max-width:1024px){
+  .app-shell{display:block}
+  .sidebar{position:static;width:100%;height:auto;overflow:visible;padding:16px 20px;border-right:0;border-bottom:1px solid var(--border)}
+  .sidebar-toggle{align-self:flex-start;margin-bottom:16px}
+  .sidebar .brand{margin:0 4px 16px}
+  .sidebar nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;overflow:visible}
+  .nav-item{min-width:0;justify-content:center;white-space:normal;gap:8px;padding:12px 8px}
+  .sidebar-footer{display:none}
+  .sidebar.is-collapsed{width:100%;padding:12px 20px}
+  .sidebar.is-collapsed .sidebar-toggle{width:auto}
+  .sidebar.is-collapsed .sidebar-toggle span{display:inline}
+}
+@media(max-width:760px){.sidebar{position:static;height:auto;overflow-y:visible}.sidebar.is-collapsed{width:100%;padding:12px 16px}.sidebar.is-collapsed .sidebar-toggle{width:auto}.sidebar.is-collapsed .sidebar-toggle span{display:inline}}
+@media(max-width:540px){.sidebar nav{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-item{justify-content:flex-start}}

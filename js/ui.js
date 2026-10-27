@@ -1,5 +1,11 @@
 // Basic keyboard behavior shared by the existing modals.
 document.addEventListener("DOMContentLoaded",function(){
+  document.querySelector('.skip-link').onclick=function(e){
+    e.preventDefault();
+    var content=document.getElementById('main-content');
+    content.focus({preventScroll:true});
+    content.scrollIntoView({block:'start'});
+  };
   var outside=document.getElementById("add-character"),current=null;
   function visibleModal(){return Array.from(document.querySelectorAll(".modal-backdrop")).find(function(x){return !x.hidden})}
   function focusables(modal){return Array.from(modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex="0"]')).filter(function(x){return !x.disabled&&x.type!=="hidden"&&x.getClientRects().length})}

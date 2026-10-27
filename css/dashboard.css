@@ -2,3 +2,54 @@
 .active-character-heading{display:flex;justify-content:space-between;align-items:center;gap:20px}.active-character-heading h2{margin:0 0 4px;font-size:1.6rem;overflow-wrap:anywhere}.active-character-heading p{margin:0;color:var(--muted)}.active-character-level{flex-shrink:0;text-align:right}.active-character-level span{font-size:.7rem;letter-spacing:.1em;color:var(--muted)}.active-character-level strong{color:var(--accent-2);margin:0;font-size:2rem}.active-character-plan{border-top:1px solid var(--border);margin:16px 0;padding-top:16px}.active-character-plan h3{font-size:.95rem;margin-bottom:8px}.active-character-plan h4{margin:0 0 6px}.active-character-plan p{color:var(--muted);margin:8px 0;overflow-wrap:anywhere}.active-character-panel .dashboard-selector select{margin-bottom:14px}.active-character-panel>.button{margin-top:8px}@media(max-width:760px){.active-character-heading{align-items:flex-start;flex-direction:column;gap:10px}.active-character-level{text-align:left}.active-character-heading h2{font-size:1.35rem}}
 .active-character-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:8px}
 .current-stage-highlight{margin:20px 0 16px;padding:20px 14px 14px;border-left:3px solid var(--accent-2);background:var(--surface-2)}.active-character-plan .current-stage-title{color:var(--text);font-size:1rem;font-weight:700;line-height:1.5;margin:0 0 8px;overflow-wrap:anywhere}.active-character-plan .current-stage-next{color:var(--text);font-weight:700;margin-top:16px}.current-stage-highlight p:last-child{margin-bottom:0}
+
+/* Keep the dashboard readable in the space left by the navigation. */
+.main-content{padding:36px clamp(20px,3.5vw,48px)}
+.topbar{align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+.topbar>div,.top-actions{min-width:0}
+.topbar h1{font-size:clamp(1.75rem,3vw,2.2rem);line-height:1.2;overflow-wrap:anywhere}
+.top-actions{flex-wrap:wrap}
+.top-actions .button{font-size:.875rem}
+#dashboard-page .summary-grid,#dashboard-page .card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+#dashboard-page #character-summary{grid-template-columns:minmax(0,1fr)}
+#dashboard-page .summary-card,#dashboard-page .feature-card{min-width:0;padding:24px}
+#dashboard-page h2,#dashboard-page h3,#dashboard-page h4,#dashboard-page p,#dashboard-page .dashboard-check>span{overflow-wrap:anywhere;min-width:0}
+#dashboard-page .feature-card>h3{margin:0 0 20px;font-size:1.125rem;line-height:1.4}
+#dashboard-page .feature-card>p{min-height:0;font-size:.9rem}
+#dashboard-page .section-heading{margin-top:32px;margin-bottom:16px}
+#dashboard-page .section-heading h2{font-size:1.35rem}
+#dashboard-page .dashboard-selector select{min-width:0;max-width:100%;min-height:48px}
+#dashboard-page .active-character-heading{flex-direction:row;align-items:center}
+#dashboard-page .active-character-heading>div:first-child{min-width:0}
+#dashboard-page .active-character-plan{margin:20px 0;padding-top:20px}
+#dashboard-page .active-character-plan>h3{font-size:.75rem;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+#dashboard-page .active-character-plan>h4{font-size:1.125rem;line-height:1.4}
+#dashboard-page .active-character-panel p{min-height:0}
+#dashboard-page .current-stage-highlight{border-radius:0 10px 10px 0;padding:16px;margin-bottom:0}
+#dashboard-page .button,#dashboard-page .plan-toolbar button{min-height:44px;max-width:100%;font-size:.875rem;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+#character-panel-progress{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+#character-panel-progress:hover{background:var(--accent);border-color:var(--text)}
+#dashboard-page .plan-toolbar{margin:20px 0 0}
+#dashboard-page .stage-panel{padding:12px 16px}
+#dashboard-page .stage-panel summary{padding:10px 0;min-height:44px}
+#dashboard-page .dashboard-check{align-items:flex-start;min-height:48px}
+#dashboard-page .dashboard-check input{margin:2px 0 0}
+#dashboard-page .dashboard-check:focus-within{background:var(--surface-2);border-radius:6px}
+#activities-summary>h4:not(:first-child){margin:24px 0 8px}
+#dashboard-page .info-panel{margin-top:24px;padding:20px;align-items:flex-start}
+#dashboard-page .panel-icon{flex-shrink:0}
+.button-ghost:hover:not(:disabled),.plan-toolbar button:hover:not(:disabled),.nav-item:hover:not(:disabled){background:var(--surface-2);border-color:var(--muted)}
+.nav-item.is-active{box-shadow:inset 3px 0 var(--accent-2)}
+@media(max-width:1100px){#dashboard-page .card-grid{grid-template-columns:minmax(0,1fr)}}
+@media(min-width:761px) and (max-width:1024px){#dashboard-page .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .main-content{padding:24px 20px}
+  .topbar{gap:16px;align-items:flex-start}
+  .top-actions{gap:8px}
+  .top-actions .button{flex:1;padding:10px}
+  #dashboard-page .summary-card,#dashboard-page .feature-card{padding:20px}
+  #dashboard-page .active-character-heading h2{font-size:1.4rem}
+  #dashboard-page .active-character-level strong{font-size:1.75rem}
+  #dashboard-page .active-character-actions .button{flex:1 1 180px;text-align:center}
+}
+@media(max-width:380px){#dashboard-page .active-character-heading{align-items:flex-start;flex-wrap:wrap}}

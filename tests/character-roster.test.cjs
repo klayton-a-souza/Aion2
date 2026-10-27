@@ -21,6 +21,12 @@ assert.equal(ctx.rosterCharacter([]),null);
 assert(ctx.characterPortrait({...characters[0],name:'Renomeado'}).includes('assets/images/l0rdfuria.png'));
 assert(!ctx.characterPortrait({...characters[0],id:'different'}).includes('<img'));
 assert(!ctx.characterPortrait({...characters[0],id:'constructor'}).includes('<img'));
+for(const [id,image] of [['char-l0rdfuria-inicial','l0rdfuria'],['char-warriorl0rd-inicial','warriorl0rd'],['char-masterfuria-20261025','masterfuria'],['char-ladyfuria-inicial','ladyfuria']]){
+  assert(ctx.characterPortrait({...characters[0],id,name:'Renomeado'}).includes('assets/images/'+image+'.png'));
+  const png=fs.readFileSync('assets/images/'+image+'.png');
+  assert.equal(png.readUInt32BE(16),512);
+  assert.equal(png.readUInt32BE(20),512);
+}
 for(const [className,icon] of [['Assassino','assassin'],['Assassin','assassin'],['Templário','templar'],['Clériga','cleric'],['Feiticeiro','sorcerer']]){
   const html=ctx.characterClassIcon({...characters[0],className});
   assert(html.includes('assets/icons/classes/'+icon+'.svg'));

@@ -1,6 +1,11 @@
 // Presentation-only state. Selecting a roster entry never changes Main or the dashboard.
 var rosterSelectedCharacterId=null;
-var CHARACTER_PORTRAITS={"char-l0rdfuria-inicial":"assets/images/l0rdfuria.png"};
+var CHARACTER_PORTRAITS={
+  "char-l0rdfuria-inicial":"assets/images/l0rdfuria.png",
+  "char-warriorl0rd-inicial":"assets/images/warriorl0rd.png",
+  "char-masterfuria-20261025":"assets/images/masterfuria.png",
+  "char-ladyfuria-inicial":"assets/images/ladyfuria.png"
+};
 var CHARACTER_CLASS_ICONS={
   assassino:"assassin",assassina:"assassin",assassin:"assassin",
   templario:"templar",templaria:"templar",templar:"templar",

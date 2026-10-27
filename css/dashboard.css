@@ -27,8 +27,6 @@
 #dashboard-page .active-character-panel p{min-height:0}
 #dashboard-page .current-stage-highlight{border-radius:0 10px 10px 0;padding:16px;margin-bottom:0}
 #dashboard-page .button,#dashboard-page .plan-toolbar button{min-height:44px;max-width:100%;font-size:.875rem;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
-#character-panel-progress{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
-#character-panel-progress:hover{background:var(--accent);border-color:var(--text)}
 #dashboard-page .plan-toolbar{margin:20px 0 0}
 #dashboard-page .stage-panel{padding:12px 16px}
 #dashboard-page .stage-panel summary{padding:10px 0;min-height:44px}
@@ -53,3 +51,37 @@
   #dashboard-page .active-character-actions .button{flex:1 1 180px;text-align:center}
 }
 @media(max-width:380px){#dashboard-page .active-character-heading{align-items:flex-start;flex-wrap:wrap}}
+
+/* Long imported plans: keep the next action visible and the full context nearby. */
+.dashboard-description,.dashboard-guidance{margin:12px 0 0}
+.dashboard-description summary,.dashboard-guidance summary{min-height:44px;padding:10px 4px;color:var(--accent-2);font-size:.875rem;cursor:pointer;overflow-wrap:anywhere}
+#dashboard-page .dashboard-description p,#dashboard-page .dashboard-guidance p{font-size:.875rem;line-height:1.65;white-space:pre-line;margin:8px 0 12px}
+#dashboard-page .current-stage-highlight .current-stage-next{margin:12px 0 0}
+.dashboard-guidance{border-top:1px solid var(--border)}
+#dashboard-page .dashboard-guidance p:last-child{margin-bottom:0}
+.dashboard-activity-group{margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.dashboard-activity-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+#activities-summary .dashboard-activity-heading h4{margin:0;font-size:1rem}
+#dashboard-page .dashboard-activity-group p{min-height:0}
+#activities-summary>.dashboard-activity-group:first-of-type{margin-top:0}
+#dashboard-page .dashboard-activity-heading .button{padding:10px 12px}
+#dashboard-page .dashboard-check>span{font-weight:600;line-height:1.6}
+#dashboard-page .dashboard-check small{font-size:.875rem;font-weight:400;line-height:1.6;margin-top:6px}
+#dashboard-page .stage-panel .dashboard-check:last-child{padding-bottom:0}
+/* The next pending objective is the primary action; plan context stays below it. */
+#dashboard-page .active-character-plan{border-top:0;margin:20px 0 16px;padding-top:0}
+#dashboard-page .next-action-panel{border-left:0;border-top:3px solid var(--accent-2);border-radius:12px;padding:24px;margin:0}
+#dashboard-page .next-action-panel>.eyebrow{color:var(--accent-2);margin:0 0 12px;font-size:.7rem}
+#dashboard-page .next-action-panel .current-stage-next{font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.4;font-weight:600;margin:0 0 12px;color:var(--text)}
+#dashboard-page .next-action-panel .current-stage-title{font-size:.875rem;line-height:1.6;font-weight:400;color:var(--muted);margin:0 0 20px}
+#dashboard-page .next-action-panel .button-primary{padding:12px 18px}
+#dashboard-page .next-action-panel .dashboard-guidance{margin-top:20px}
+.active-plan-context{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.active-plan-context>h3{font-size:.75rem;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+.active-plan-context>h4{font-size:1rem;line-height:1.5;margin-bottom:8px}
+#dashboard-page .active-plan-context>.dashboard-description{margin-top:8px}
+#dashboard-page .next-action-status{padding:20px;border-radius:12px;background:var(--surface-2);color:var(--text)}
+@media(max-width:760px){
+  #dashboard-page .next-action-panel{padding:18px}
+  #dashboard-page .next-action-panel .button-primary{width:100%}
+}

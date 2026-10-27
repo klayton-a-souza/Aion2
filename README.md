@@ -22,7 +22,7 @@ No dashboard, escolha **Ver personagens** ou abra **Personagens** no menu (`#cha
 
 A Visão Geral (`#home`) permite acompanhar e marcar objetivos e atividades do personagem selecionado. As outras páginas usam `#progression` e `#activities`; os hashes permitem acesso direto e histórico Voltar/Avançar. O esquema atual é 1.4.0.
 
-Os cards de **L0rdFuria**, **Warri0rLord** e **LadyFuria** oferecem **Guia de evolução** em nova aba para Assassino, Templário e Clérigo, respectivamente. Configuração fixa em `data/character-guides.js`, associada ao nome exato sem diferenciar maiúsculas/minúsculas ou espaços nas extremidades. Outros personagens da mesma classe não recebem o guia; renomear para outro nome remove a associação. Nenhum personagem é criado ou modificado por essa configuração.
+As fichas de **L0rdFuria**, **WarriorL0rd**, **LadyFuria** e **MästerFuria** oferecem apenas **Guia** e **Perfil**, em nova aba, com os destinos fornecidos pelo usuário em `data/character-guides.js`. Os guias de L0rdFuria, WarriorL0rd e MästerFuria apontam às builds PvE de Assassino, Templário e Feiticeiro; seus perfis apontam ao Aion2Index. **LadyFuria mantém literalmente a associação solicitada: Guia aponta ao Aion2Index e Perfil à build PvE de Clérigo.** Não há associação por classe: o nome deve corresponder, ignorando maiúsculas/minúsculas e espaços nas extremidades. Nenhum cadastro é criado ou alterado.
 
 O seletor mostra nome, classe e iLvl reais. O personagem ativo da interface é independente do Principal: trocar a seleção não altera o cadastro. Seu ID é salvo em `preferences.activeCharacterId`; na ausência de seleção válida, utiliza Principal, primeiro cadastrado ou estado vazio. Excluir o selecionado aplica essa mesma regra.
 
@@ -30,7 +30,7 @@ O dashboard mostra o plano ativo individual, a primeira etapa/objetivo pendente 
 
 ## Progressão permanente
 
-Os cards também oferecem **Perfil Shugo.gg** para L0rdFuria, LadyFuria e o alias explícito Warri0rLord/WarriorL0rd, configurados em `data/character-guides.js`. Ambos os nomes do Templário apontam ao perfil WarriorL0rd sem renomear registros. Se houver mais de um registro correspondente ao mesmo perfil, o botão é omitido para evitar ambiguidade. Links abrem nova aba; não há API ou sincronização. Cadastros reais do navegador e navegação externa não foram inspecionados neste ambiente.
+O alias explícito **Warri0rLord** continua usando os mesmos links de **WarriorL0rd**, sem renomear registros. Se mais de um cadastro corresponder ao mesmo perfil, o botão Perfil é omitido para evitar ambiguidade. Os links são navegação externa, sem API ou sincronização com os sites.
 
 Em **Progressão**, crie um planejamento como **Rascunho**, adicione etapas e objetivos e ordene com ↑/↓. Edite títulos/descrições, marque/desmarque objetivos e recolha etapas por seus cabeçalhos. Excluir etapas/objetivos exige confirmação. Cada objetivo tem o mesmo peso; percentuais são calculados, não armazenados. Etapas e planos vazios ficam em 0%.
 

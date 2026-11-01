@@ -30,7 +30,10 @@ function updateStorageNotice(){var notice=document.getElementById("storage-notic
 function saveCharacter(e){
   e.preventDefault();var id=document.getElementById('character-id').value,n=document.getElementById('character-name').value.trim(),cl=document.getElementById('character-class').value.trim(),il=Number(document.getElementById('character-ilevel').value),err=document.getElementById('form-error');
   if(!n||!cl||!document.getElementById('character-ilevel').value.trim()||!Number.isFinite(il)||il<0){err.textContent='Informe nome, classe e um iLvl numérico igual ou maior que zero.';return}
-  var old=id&&AION_STATE.data.characters.find(function(c){return c.id===id}),main=document.getElementById('character-main').checked,c={id:id||makeId(),name:n,className:cl,server:document.getElementById('character-server').value.trim(),faction:document.getElementById('character-faction').value,ilevel:il,type:main?'main':'alt',ilevelUpdatedAt:old&&old.ilevel===il?old.ilevelUpdatedAt:new Date().toISOString()};
+  var cpText=document.getElementById('character-cp').value.trim(),cp=parseCombatPower(cpText);
+  if(cp!==null&&!isValidCombatPower(cp)){err.textContent='Informe um CP numérico igual ou maior que zero (ex.: 98,30), ou deixe vazio.';return}
+  var old=id&&AION_STATE.data.characters.find(function(c){return c.id===id}),main=document.getElementById('character-main').checked,now=new Date().toISOString(),c=Object.assign({},old||{},{id:id||makeId(),name:n,className:cl,server:document.getElementById('character-server').value.trim(),faction:document.getElementById('character-faction').value,ilevel:il,combatPower:cp,type:main?'main':'alt',ilevelUpdatedAt:old&&old.ilevel===il?old.ilevelUpdatedAt:now});
+  recordCharacterProgress(c,old,now);
   if(!id&&!main&&!AION_STATE.data.characters.some(function(x){return x.type==='main'}))c.type='main';
   if(c.type==='main')AION_STATE.data.characters.forEach(function(x){x.type='alt'});
   if(old)AION_STATE.data.characters[AION_STATE.data.characters.indexOf(old)]=c;else AION_STATE.data.characters.push(c);

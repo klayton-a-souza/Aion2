@@ -1,0 +1,49 @@
+#events-page{min-width:0}
+#events-page :is(h2,h3,p,li,summary,label,button){overflow-wrap:anywhere}
+.events-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.events-heading h2{font-size:1.4rem;margin:0 0 8px}
+.events-muted{color:var(--muted);font-size:.85rem;line-height:1.65}
+.events-next{border-top:3px solid var(--accent);padding-top:22px}
+.events-next h3{font-size:1.4rem;margin:12px 0}
+.event-countdown{display:block;font-size:1.65rem;font-variant-numeric:tabular-nums;color:var(--accent-2);margin:12px 0}
+.events-status{display:inline-block;border:1px solid var(--border);border-radius:8px;padding:5px 9px;color:var(--accent-2);font-size:.8rem}
+.events-community-warning{font-size:.8rem;line-height:1.6;color:var(--accent-2);overflow-wrap:anywhere;margin:10px 0}
+.events-source-list{padding-left:20px;color:var(--muted);font-size:.8rem;line-height:1.7;overflow-wrap:anywhere}
+.events-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:20px;margin:20px 0}
+.events-list,.home-events-list{list-style:none;padding:0;margin:0}
+.events-list li,.home-events-list li{border-top:1px solid var(--border);padding:14px 0;overflow-wrap:anywhere}
+.events-list h3{font-size:.95rem;margin:4px 0}
+.events-list time,.home-events-list time{font-size:.85rem;color:var(--muted)}
+.events-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.events-row>div{min-width:0}
+.events-list .events-status{margin:8px 0}
+.events-settings>summary,.events-day>summary{min-height:48px;padding:12px 0;color:var(--accent-2);cursor:pointer}
+.events-settings h3{font-size:1rem;margin-top:24px}
+.events-editor-list{display:grid;gap:12px;margin-top:16px}
+.event-editor-card{border:1px solid var(--border);border-radius:10px;padding:16px;min-width:0}
+.event-editor-card h3{margin:0 0 8px}
+.event-editor-card p{margin:8px 0}
+.events-preferences{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0}
+.events-preferences label{color:var(--muted);font-size:.85rem;min-width:0}
+.events-preferences :is(input:not([type=checkbox]),select){display:block;width:100%;min-height:44px;margin-top:6px;border:1px solid var(--border);border-radius:8px;padding:10px;background:var(--surface-2);color:var(--text);font:inherit}
+.events-check{display:flex;align-items:center;gap:10px;min-height:44px;font-size:.85rem}
+.events-check input{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0}
+.events-form{width:min(760px,100%)}
+.events-form :is(p,small){color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.events-form .form-error{color:var(--danger)}
+.events-form label{display:block;color:var(--muted);font-size:.85rem;margin:12px 0 0;min-width:0}
+.events-form :is(input:not([type=checkbox]),select,textarea){display:block;width:100%;min-width:0;margin-top:6px;padding:10px;background:var(--surface-2);color:var(--text);border:1px solid var(--border);border-radius:8px;font:inherit}
+.events-form textarea{min-height:75px}
+.events-form .events-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.events-form .events-days{display:flex;gap:8px 16px;flex-wrap:wrap;border:1px solid var(--border);border-radius:8px;margin:16px 0;padding:10px 12px}
+.events-days label{display:flex;align-items:center;gap:8px;min-height:44px;margin:0}
+.events-days input{width:18px;height:18px;accent-color:var(--accent)}
+.events-form .events-check{display:flex;margin-top:12px}
+#events-page .button,.events-form .button{min-height:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+#event-alerts:not(:empty){border:1px solid var(--accent);border-radius:12px;background:var(--surface-2);padding:16px;margin-bottom:20px}
+#event-alerts p{margin:0 0 8px;overflow-wrap:anywhere}
+#event-alerts button{min-height:44px}
+.home-events-list h3{font-size:.9rem!important;margin:4px 0!important}
+.home-events-list [data-event-countdown]{display:block;color:var(--accent-2);font-size:.85rem;margin-top:4px;font-variant-numeric:tabular-nums}
+@media(max-width:1024px) and (min-width:541px){.sidebar nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.events-layout,.events-preferences,.events-form .events-fields{grid-template-columns:minmax(0,1fr)}.events-next h3{font-size:1.2rem}}

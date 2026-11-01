@@ -2,6 +2,14 @@
 
 Aplicação pessoal para gerenciar personagens, progressão permanente e atividades diárias/semanais. Feita com HTML5, CSS3 e JavaScript convencional, sem instalação, compilação, servidor, backend ou dependências externas obrigatórias.
 
+## Documentação
+
+- [Índice e relatórios das Etapas 1–5](docs/README.md)
+- [Programação comunitária de eventos Global LA](docs/EVENTOS-GLOBAL-LA.md)
+- [Suporte a CP decimal](docs/CP-DECIMAL.md)
+
+Os relatórios em `docs/` registram as evoluções posteriores. As seções abaixo preservam a documentação da base V1, incluindo o estado de validação daquela entrega; consulte os relatórios e guias acima para as funcionalidades e verificações adicionadas depois.
+
 **Estado da entrega: V1 funcional com ressalvas, com Refinamentos 01, 02 e 03 implementados.** As oito suítes automatizadas passaram em ambiente simulado. A abertura real por `file://` e a validação visual/interativa estão pendentes: o navegador integrado do ambiente rejeita esse protocolo. Não houve declaração de compatibilidade real sem teste.
 
 ## Abrir a aplicação

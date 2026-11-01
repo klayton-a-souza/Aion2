@@ -23,7 +23,7 @@
 .character-detail-card .character-title>span{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .character-detail-card .main-badge,.character-detail-card .alt-badge{margin-left:0}
 .character-portrait-slot{grid-area:portrait;max-width:200px;width:100%;overflow:hidden;border-radius:12px;background:var(--surface)}
-.character-portrait{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;border-radius:12px;mask-image:radial-gradient(ellipse at 50% 43%,#000 55%,#000e 72%,transparent 100%)}
+.character-portrait{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:center;border-radius:12px;mask-image:radial-gradient(ellipse at 50% 43%,#000 55%,#000e 72%,transparent 100%)}
 .character-portrait-placeholder{display:grid;place-items:center;aspect-ratio:1;padding:20px;text-align:center;color:var(--muted);font-size:.85rem;border:1px dashed var(--border);border-radius:12px;background:var(--surface-2)}
 .character-detail-card>.ilevel{grid-area:level;display:block;border:0;padding:0;margin:20px 0 0}
 .character-detail-card>.ilevel strong{display:block;font-size:2.4rem;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}

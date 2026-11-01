@@ -1,0 +1,31 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const run=(code,c)=>require('./helpers/runtime.cjs')(vm,fs,code,c),memory=new Map();
+const ctx=vm.createContext({Date,Math,Set,Map,Intl,console,document:{addEventListener(){},getElementById(){return null}},localStorage:{getItem:k=>memory.get(k)??null,setItem:(k,v)=>memory.set(k,v),removeItem:k=>memory.delete(k)},setTimeout(){}});
+for(const m of fs.readFileSync('index.html','utf8').matchAll(/<script src="([^"]+)"/g))run(fs.readFileSync(m[1],'utf8'),ctx);
+run(`renderApp=function(){};showToast=function(){};loadState();AION_STATE.data.characters=[{id:'main',name:'L0rdFuria',className:'Assassino',type:'main',ilevel:2006,combatPower:98.3,progressHistory:[]}];AION_STATE.data=prepareState(AION_STATE.data);initializeMilestones('main');`,ctx);
+let c=ctx.AION_STATE.data.characters[0];const data=ctx.AION_STATE.data;
+assert.equal(data.cpAssessment.communityStudyVersion,2);assert.equal(ctx.cpDesiredTarget(c).reference.medianCP,92);assert.equal(ctx.cpDesiredTarget(c).target,101.21);assert.equal(ctx.cpDesiredTarget(c).difference,2.91);
+assert.equal(ctx.compareCombatPower({...c,combatPower:101.2},data.cpAssessment).label,'Na faixa da referência');
+assert.equal(ctx.compareCombatPower({...c,combatPower:101.21},data.cpAssessment).label,'Acima da referência');
+for(const [median,bound,next] of [[72,79.2,79.21],[88,96.8,96.81],[90,99,99.01],[92,101.2,101.21],[107,117.7,117.71],[120,132,132.01],[131,144.1,144.11],[158,173.8,173.81],[100.05,110.055,110.06],[92.01,101.211,101.22]]){
+  assert.equal(ctx.cpFirstHundredthAbove(median,1.1),next);assert.equal(ctx.cpCompareToReference(next,median,1.1),1);
+  if(median!==92.01)assert.equal(ctx.cpCompareToReference(bound,median,1.1),0);
+}
+assert.equal(ctx.cpFirstHundredthAbove(.1,.9),.1);assert.equal(ctx.cpCompareToReference(142.2,158,.9),0);
+assert.equal(ctx.cpFirstHundredthAbove(Number.MAX_SAFE_INTEGER,1.1),null);
+assert.equal(ctx.cpDesiredTarget({...c,combatPower:null}).target,101.21);assert.equal(ctx.cpDesiredTarget({...c,combatPower:null}).difference,null);
+assert.equal(ctx.cpDesiredTarget({...c,ilevel:1399}).target,null);
+for(const [level,target] of [[1599,79.21],[1600,96.81],[2199,101.21],[2200,117.71],[2799,144.11],[2800,173.81]])assert.equal(ctx.cpDesiredTarget({...c,ilevel:level}).target,target);
+assert.equal(ctx.accountCharacterProgress(c).combatPower.target,101.21);
+const plans=JSON.stringify(data.plans);assert.equal(ctx.cpPersonalTarget(c).target,110000);ctx.cpDesiredTarget(c);assert.equal(JSON.stringify(data.plans),plans);
+const legacy=JSON.parse(JSON.stringify(data));legacy.cpAssessment.communityStudyVersion=1;
+legacy.cpAssessment.references.forEach(r=>r.medianCP*=1000);legacy.cpAssessment.references[0].medianCP=73000;
+legacy.cpAssessment.extra={keep:true};const before=JSON.stringify({characters:legacy.characters,plans:legacy.plans});
+let migrated=ctx.prepareState(legacy);assert.equal(migrated.cpAssessment.references[0].medianCP,73000);assert.equal(migrated.cpAssessment.references[3].medianCP,92);assert.equal(migrated.cpAssessment.references[3].scaleMigrationFrom,92000);assert.equal(migrated.cpAssessment.extra.keep,true);
+assert.equal(JSON.stringify({characters:migrated.characters,plans:migrated.plans}),before);
+for(let i=0;i<3;i++)migrated=ctx.prepareState(migrated);assert.equal(migrated.cpAssessment.references[3].medianCP,92);assert.equal(migrated.cpAssessment.references.length,8);
+ctx.AION_STATE.data=migrated;assert(ctx.saveState());ctx.loadState();assert.equal(ctx.cpDesiredTarget(ctx.AION_STATE.data.characters[0]).target,101.21);
+const b=ctx.backupPayload();ctx.restoreBackup(b);assert.equal(ctx.cpDesiredTarget(ctx.AION_STATE.data.characters[0]).target,101.21);
+ctx.AION_STATE.data.cpAssessment.settings.upperRatio=1.2;assert.equal(ctx.cpDesiredTarget(ctx.AION_STATE.data.characters[0]).target,110.41);
+ctx.AION_STATE.data.cpAssessment.references=[];assert.equal(ctx.cpDesiredTarget(ctx.AION_STATE.data.characters[0]).target,null);
+console.log('PASS CP automático: 92,00 → 101,21, fronteiras decimais exatas, faixas, critérios, Home, ausência, escala migrada uma vez, personalizações/planos/personagens preservados e backup.');

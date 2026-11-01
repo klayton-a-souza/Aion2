@@ -32,8 +32,7 @@ function recordCharacterProgress(character,previous,now){
   if(Object.keys(changes).length)character.progressHistory.push({recordedAt:now,source:previous?'manual-edit':'manual-create',changes:changes});
 }
 function characterProgressMarkup(c){
-  var history=c.progressHistory||[];
-  return '<div class="ilevel"><span>Poder de Combate (CP)</span><strong>'+(formatCombatPower(c.combatPower))+'</strong></div><p>CP atualizado: '+date(c.combatPowerUpdatedAt)+'</p><details><summary>Histórico de evolução ('+history.length+')</summary>'+(history.length?'<ul>'+history.slice().reverse().map(function(h){return '<li>'+esc(new Date(h.recordedAt).toLocaleString('pt-BR'))+' · '+esc(h.source==='manual-create'?'Cadastro manual':h.source==='manual-edit'?'Edição manual':h.source)+': '+Object.keys(h.changes).map(function(key){var change=h.changes[key];return (key==='ilevel'?'iLvl':'CP')+' '+esc(change.from===null?'não informado':key==='combatPower'?formatCombatPower(change.from):String(change.from))+' → '+esc(change.to===null?'não informado':key==='combatPower'?formatCombatPower(change.to):String(change.to))}).join('; ')+'</li>'}).join('')+'</ul>':'<p>Nenhuma alteração registrada.</p>')+'</details>';
+  return '<div class="ilevel character-cp"><span>Poder de Combate (CP)</span><strong>'+formatCombatPower(c.combatPower)+'</strong></div><p class="character-cp-updated">CP atualizado: '+date(c.combatPowerUpdatedAt)+'</p>';
 }
 // Extend the existing form and card without changing routes or their handlers.
 

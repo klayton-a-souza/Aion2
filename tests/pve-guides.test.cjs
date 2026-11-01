@@ -6,7 +6,7 @@ for(const [name,url] of [
   ['L0rdFuria','https://aion2.gaming.tools/pt-br/builds/assassin/pve'],
   ['WarriorL0rd','https://aion2.gaming.tools/pt-br/builds/templar/pve'],
   ['Warri0rLord','https://aion2.gaming.tools/pt-br/builds/templar/pve'],
-  ['LadyFuria','https://aion2index.com/c/la/triniel/LadyFuria'],
+  ['LadyFuria','https://aion2.gaming.tools/pt-br/builds/cleric/pve'],
   ['MästerFuria','https://aion2.gaming.tools/pt-br/builds/sorcerer/pve']
 ]){
   const c={id:'stable',name,className:'Classe',type:'alt',ilevel:0};ctx.AION_STATE.data.characters=[c];const before=JSON.stringify(ctx.AION_STATE.data);

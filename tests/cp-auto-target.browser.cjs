@@ -1,0 +1,24 @@
+const assert=require('node:assert/strict'),path=require('node:path'),os=require('node:os'),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),{seedDashboard}=require('./dashboard-account.fixture.cjs'),expand=require('./helpers/cp-panels.cjs');
+(async()=>{const browser=await chromium.launch();try{
+  const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('file:///'+path.resolve('index.html').replaceAll('\\','/')+'#characters');await seedDashboard(page);await page.evaluate(()=>navigateTo('characters'));
+  await page.locator('[data-action=edit]').click();await page.locator('#character-ilevel').fill('2006');await page.locator('#character-cp').fill('98,30');await page.locator('#character-form button[type=submit]').click();
+  assert.equal(await page.locator('.cp-panel-toggle[aria-expanded=false]').count(),4);await expand(page);
+  assert.equal(await page.locator('#cp-desired-target').textContent(),'101,21');assert.match(await page.locator('[data-analysis-panel="0"]').innerText(),/Faltam 2,91/);
+  assert.equal(await page.evaluate(()=>compareCombatPower(cpSelectedCharacter(),AION_STATE.data.cpAssessment).reference.medianCP),92);
+  const records=await page.evaluate(()=>JSON.stringify({characters:AION_STATE.data.characters,plans:AION_STATE.data.plans}));
+  await page.locator('#cp-community [data-cp-reference]').click();await page.locator('#cp-ref-median').fill('93');await page.locator('#cp-dialog button[type=submit]').click();assert.equal(await page.locator('#cp-desired-target').textContent(),'102,31');
+  assert.equal(await page.evaluate(()=>JSON.stringify({characters:AION_STATE.data.characters,plans:AION_STATE.data.plans})),records);
+  await page.locator('#cp-community [data-cp-reference]').click();await page.locator('#cp-ref-median').fill('92');await page.locator('#cp-dialog button[type=submit]').click();
+  await page.locator('[data-action=edit]').click();await page.locator('#character-ilevel').fill('2200');await page.locator('#character-form button[type=submit]').click();assert.equal(await page.locator('#cp-desired-target').textContent(),'117,71');
+  await page.locator('[data-action=edit]').click();await page.locator('#character-ilevel').fill('2006');await page.locator('#character-form button[type=submit]').click();
+  await page.locator('[data-expansion-id=cp-references]>summary').click();await page.locator('#cp-settings').click();await page.locator('#cp-upper').fill('120');await page.locator('#cp-dialog button[type=submit]').click();assert.equal(await page.locator('#cp-desired-target').textContent(),'110,41');
+  await page.locator('#cp-settings').click();await page.locator('#cp-upper').fill('110');await page.locator('#cp-dialog button[type=submit]').click();await page.locator('[data-expansion-id=cp-references]>summary').click();
+  await page.reload();assert.equal(await page.locator('.cp-panel-toggle[aria-expanded=false]').count(),4);await expand(page);assert.equal(await page.locator('#cp-desired-target').textContent(),'101,21');
+  assert(await page.evaluate(()=>{const before=JSON.stringify({characters:AION_STATE.data.characters,plans:AION_STATE.data.plans}),b=backupPayload();restoreBackup(b);return cpDesiredTarget(cpSelectedCharacter()).target===101.21&&before===JSON.stringify({characters:AION_STATE.data.characters,plans:AION_STATE.data.plans})}));
+  const plan=page.locator('[data-expansion-id=cp-plan-target]');if(await plan.evaluate(e=>e.open))await plan.locator('summary').click();
+  for(const [name,width,height] of [['desktop',1440,1000],['tablet',820,1180],['mobile',390,844]]){await page.setViewportSize({width,height});await page.locator('#cp-assessment').screenshot({path:path.join(process.env.A2_EVIDENCE_DIR||os.tmpdir(),'cp-auto-target-'+name+'.png')});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false)}
+  await page.evaluate(()=>navigateTo('home'));assert.equal(await page.locator('.account-main [data-account-metric=combatPower] [role=progressbar]').getAttribute('aria-valuenow'),'97');assert.match(await page.locator('.account-main [data-account-metric=combatPower]').innerText(),/101,21/);
+  await page.evaluate(()=>navigateTo('characters'));await page.evaluate(()=>document.documentElement.style.fontSize='200%');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);assert.deepEqual(errors,[]);
+  console.log('PASS meta automática file://: iLvl 2006, CP 98,30, mediana 92, meta 101,21; faixas/referências/critério dinâmicos, planos/histórico preservados, reload/backup, Home, três capturas e texto 200%.');
+}finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

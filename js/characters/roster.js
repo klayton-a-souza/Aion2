@@ -44,7 +44,7 @@ function renderCharacterRoster(characters){
   }
   root.innerHTML='<div class="character-roster-layout"><nav class="character-roster-list" aria-label="Selecionar personagem para consultar a ficha">'+characters.map(function(c){return '<button class="character-roster-choice" type="button" data-roster-character="'+esc(c.id)+'" aria-controls="character-detail" aria-pressed="'+(c.id===selected.id)+'">'+characterClassIcon(c)+'<span class="character-roster-name"><strong>'+esc(c.name)+'</strong><small>'+esc(c.className)+'</small>'+(c.type==='main'?'<span class="main-badge">Principal</span>':'')+'</span></button>'}).join('')+'</nav><div id="character-detail" role="region" aria-labelledby="character-detail-title">'+card(selected)+'</div></div>';
   if(typeof restoreSectionExpansion==='function')restoreSectionExpansion('characters',root);
-  root.querySelectorAll('[data-roster-character]').forEach(function(button){button.onclick=function(){rosterSelectedCharacterId=button.dataset.rosterCharacter;renderApp()}});
+  root.querySelectorAll('[data-roster-character]').forEach(function(button){button.onclick=function(){rosterSelectedCharacterId=button.dataset.rosterCharacter;if(typeof cpSelectedCharacterId!=='undefined')cpSelectedCharacterId=rosterSelectedCharacterId;renderApp()}});
   if(target){
     var buttons=Array.from(root.querySelectorAll('[data-roster-character],[data-action]'));
     var replacement=buttons.find(function(b){return target.character?b.dataset.rosterCharacter===target.character:b.dataset.action===target.action&&b.dataset.id===target.id});

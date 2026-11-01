@@ -1,0 +1,27 @@
+.secondary-tools>summary,.activity-row-tools>summary,.events-list-group>details>summary{cursor:pointer;min-height:44px;padding:10px 4px;color:var(--accent-2);overflow-wrap:anywhere}
+#character-list details>summary,#milestone-overview details>summary,#activities-page .catalog-resources summary{min-height:44px;padding:10px 2px;cursor:pointer}
+#account-dashboard.is-refined .account-bottom-grid{grid-template-columns:minmax(0,1fr)}
+#account-dashboard.is-refined .account-actions{border-color:var(--accent-border-muted)}
+.activity-settings{margin:20px 0;border:1px solid var(--border);border-radius:12px;padding:8px 16px}
+.activity-quick-context{display:block;max-width:420px;color:var(--muted);font-size:.85rem}
+.activity-quick-context select{display:block;width:100%;min-height:44px;margin-top:6px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit}
+.activity-row-tools{min-width:0;max-width:100%;font-size:.875rem}
+#activities-page .activity-row-tools .plan-toolbar{margin:8px 0;display:flex;flex-wrap:wrap}
+.events-list-group{list-style:none}
+.event-window-editor{margin:16px 0;min-width:0}
+.event-window-row{border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;min-width:0}
+.event-window-row legend{color:var(--accent-2);font-size:.85rem}
+.event-advanced{border-top:1px solid var(--border);margin-top:18px;padding-top:8px}
+.events-form h3{font-size:1rem}
+@media(max-width:760px){
+  .topbar .top-actions{display:flex;gap:8px;width:100%}
+  .topbar .top-actions .button{flex:1;min-height:44px;padding:10px 8px;font-size:.8rem;white-space:normal}
+  .sidebar.is-collapsed{padding:10px 20px}
+  .character-roster-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .character-roster-choice{min-height:64px;padding:10px 8px;gap:8px}
+  .character-roster-name strong{font-size:.85rem}
+  .character-roster-choice .avatar{width:30px;height:30px;flex-shrink:0}
+  #account-dashboard .account-summary{padding:18px}
+  #account-dashboard .account-main{padding:20px}
+  #account-dashboard .account-alt{padding:16px}
+}

@@ -17,7 +17,7 @@
 .character-class-icon{width:36px;height:36px;border-radius:10px;flex:0 0 36px;background:var(--surface-2);color:var(--accent-2)}
 .character-class-icon img{display:block;width:24px;height:24px}
 #character-detail{min-width:0}
-.character-detail-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,200px);grid-template-areas:"identity portrait" "level portrait" "meta portrait" "actions actions";column-gap:24px;align-items:start;padding:24px}
+.character-detail-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,200px);grid-template-areas:"identity portrait" "level portrait" "cp portrait" "meta portrait" "updated updated" "actions actions";column-gap:24px;align-items:start;padding:24px}
 .character-detail-card>.character-card-top{grid-area:identity}
 .character-detail-card .character-title h3{font-size:1.4rem}
 .character-detail-card .character-title>span{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -44,7 +44,7 @@
   .character-roster-layout{grid-template-columns:minmax(0,1fr);gap:20px}
   .character-roster-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .character-roster-choice{padding:12px 10px;gap:8px}
-  .character-detail-card{grid-template-columns:minmax(0,1fr);grid-template-areas:"identity" "portrait" "level" "meta" "actions";padding:20px}
+  .character-detail-card{grid-template-columns:minmax(0,1fr);grid-template-areas:"identity" "portrait" "level" "cp" "meta" "updated" "actions";padding:20px}
   .character-portrait-slot{max-width:180px;margin-top:18px}
   .character-detail-card>.ilevel strong{font-size:2rem}
 }
@@ -55,3 +55,6 @@
   .character-detail-actions .card-menu button{flex:1}
   .character-resources{flex-basis:100%}
 }
+
+.character-detail-card>.character-cp{grid-area:cp}
+.character-detail-card>.character-cp-updated{grid-area:updated;margin:0 0 16px;color:var(--muted);font-size:.8rem}

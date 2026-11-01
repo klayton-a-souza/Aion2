@@ -4,6 +4,8 @@
 
 CP aceita números decimais não negativos, como 98,30. A restrição anterior a inteiros foi removida do cadastro, histórico, metas dos marcos e medianas comunitárias. Tamanho de amostra e contagens continuam inteiros.
 
+**Atualização posterior autorizada:** as referências comunitárias iniciais passam da escala 92000 para 92,00, com migração idempotente e preservação das personalizações. Personagens, históricos e metas gravadas continuam sem conversão. A meta automática da faixa usa o primeiro centésimo acima do limite superior (92,00 × 110% → 101,21); detalhes em [CP comunitário](CP-COMUNITARIO.md). As descrições abaixo sobre ausência de conversão refletem a correção original, anterior a essa autorização.
+
 Campos de CP usam entrada textual com teclado decimal, aceitando vírgula ou ponto decimal, sem separadores de milhar. 98,30 e 98.30 correspondem ao mesmo número 98.3 no JSON. Na apresentação, esse valor aparece como 98,30. Salvar as duas representações não cria alterações duplicadas no histórico.
 
 Valores existentes permanecem na escala em que foram salvos: 98077 continua sendo 98077. Não houve divisão por mil ou outra conversão presumida de personagens, metas, referências ou histórico. As metas iniciais também permanecem editáveis; caso a unidade desejada seja diferente, ela precisa ser ajustada explicitamente. Backups antigos com inteiros e novos com decimais são aceitos sem mudança do esquema principal.

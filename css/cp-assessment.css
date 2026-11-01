@@ -1,4 +1,9 @@
 #cp-assessment{margin-top:28px;min-width:0}
+.cp-panel-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#cp-assessment .cp-panel-heading h3{margin:0;flex:1;min-width:0}
+.cp-panel-toggle{min-height:44px;flex-shrink:0}
+.cp-panel-content{margin-top:18px}
+.cp-columns,.cp-charts{align-items:start}
 #cp-assessment h2{font-size:1.35rem;margin:0 0 8px}
 #cp-assessment h3{font-size:1.05rem;margin:0 0 12px}
 #cp-assessment :is(p,h2,h3,dd,dt,li,button,summary){overflow-wrap:anywhere}

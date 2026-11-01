@@ -1,9 +1,9 @@
 // Links fornecidos pelo usuário: não são persistidos nem criam personagens.
-// Os destinos de Guia e Perfil de LadyFuria seguem literalmente a solicitação.
+// Guia aponta para a build; Perfil aponta para a página do personagem.
 var CHARACTER_LINKS=[
   {names:["l0rdfuria"],guide:"https://aion2.gaming.tools/pt-br/builds/assassin/pve",profile:"https://aion2index.com/c/la/triniel/L0rdFuria"},
   {names:["warriorl0rd","warri0rlord"],guide:"https://aion2.gaming.tools/pt-br/builds/templar/pve",profile:"https://aion2index.com/c/la/triniel/WarriorL0rd"},
-  {names:["ladyfuria"],guide:"https://aion2index.com/c/la/triniel/LadyFuria",profile:"https://aion2.gaming.tools/pt-br/builds/cleric/pve"},
+  {names:["ladyfuria"],guide:"https://aion2.gaming.tools/pt-br/builds/cleric/pve",profile:"https://aion2index.com/c/la/triniel/LadyFuria"},
   {names:["mästerfuria"],guide:"https://aion2.gaming.tools/pt-br/builds/sorcerer/pve",profile:"https://aion2index.com/c/la/triniel/M%C3%A4sterFuria"}
 ];
 function characterLinkKey(name){return String(name||"").trim().toLowerCase().normalize("NFC")}

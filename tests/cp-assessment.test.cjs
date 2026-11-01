@@ -6,6 +6,7 @@ runArchitectureScript(`renderApp=function(){};showToast=function(){};loadState()
 var c={id:'main',name:'L0rdFuria',className:'Assassino',type:'main',ilevel:2100,combatPower:null,progressHistory:[]};AION_STATE.data.characters=[c];AION_STATE.data=prepareState(AION_STATE.data);c=AION_STATE.data.characters[0];
 function reference(extra){return Object.assign({className:'Assassino',role:'damage',minIlevel:2000,maxIlevel:2200,medianCP:100000,sampleSize:100,source:'FONTE SINTÉTICA DE TESTE',collectedOn:'2026-10-01',confidence:'documented',notes:'Não usar como dado real.'},extra||{})}
 `,ctx);
+ctx.AION_STATE.data.cpAssessment.references=[]; // Explicit empty-reference scenario; defaults are covered separately.
 assert.equal(ctx.compareCombatPower(ctx.c,ctx.AION_STATE.data.cpAssessment).label,'Referência indisponível');
 let ref=ctx.saveCPReference(ctx.reference());let result=ctx.compareCombatPower(ctx.c,ctx.AION_STATE.data.cpAssessment);assert.equal(result.label,'CP não informado');assert.equal(result.provisional,false);
 for(const [cp,label] of [[0,'Abaixo da referência'],[89999,'Abaixo da referência'],[90000,'Na faixa da referência'],[110000,'Na faixa da referência'],[110001,'Acima da referência'],[Number.MAX_SAFE_INTEGER,'Acima da referência']]){ctx.c.combatPower=cp;assert.equal(ctx.compareCombatPower(ctx.c,ctx.AION_STATE.data.cpAssessment).label,label)}
@@ -32,6 +33,6 @@ assert.equal(JSON.stringify({cp:ctx.c.combatPower,goal:ctx.cpPersonalTarget(ctx.
 assert.throws(()=>ctx.saveCPObservation(ctx.c.id,{role:'damage',dps:-1,content:'',survival:'',aggro:'',healing:'',notes:''}));
 ctx.saveState();ctx.loadState();assert.equal(ctx.AION_STATE.data.cpAssessment.performanceNotes.length,3);assert.equal(ctx.AION_STATE.data.characters[0].progressHistory.length,3);
 const backup=ctx.backupPayload(),snap=JSON.stringify(backup.data.cpAssessment);ctx.restoreBackup(backup);assert.equal(JSON.stringify(ctx.AION_STATE.data.cpAssessment),snap);
-const legacy=JSON.parse(JSON.stringify(backup));delete legacy.data.cpAssessment;const migrated=ctx.validateBackup(legacy);assert.equal(migrated.cpAssessment.references.length,0);assert.equal(migrated.characters[0].progressHistory.length,3);assert.equal(JSON.stringify(ctx.prepareState(migrated)),JSON.stringify(migrated));
+const legacy=JSON.parse(JSON.stringify(backup));delete legacy.data.cpAssessment;const migrated=ctx.validateBackup(legacy);assert.equal(migrated.cpAssessment.references.length,8);assert.equal(migrated.characters[0].progressHistory.length,3);assert.equal(JSON.stringify(ctx.prepareState(migrated)),JSON.stringify(migrated));
 const invalid=JSON.parse(JSON.stringify(backup));invalid.data.cpAssessment.settings.lowerRatio=2;const stable=JSON.stringify(ctx.AION_STATE.data);assert.throws(()=>ctx.restoreBackup(invalid));assert.equal(JSON.stringify(ctx.AION_STATE.data),stable);
 console.log('PASS CP: ausências, limites 90/110 inclusivos, zero/extremos, amostras pequenas/insuficientes, intervalos/classes/funções, validação, gráficos sem medições inventadas, observações independentes, persistência, backup atômico e migração idempotente.');

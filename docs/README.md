@@ -3,9 +3,11 @@
 ## Guias atuais
 
 - [Arquitetura modular](ARQUITETURA.md): estrutura, composição, estado e compatibilidade local.
+- [Refinamento de usabilidade](USABILIDADE.md): melhorias nas cinco páginas, comparação visual, testes e limitações.
 
 - [Programação comunitária Global LA / Triniel](EVENTOS-GLOBAL-LA.md): horários, fontes, grupos provisórios, migração e pendências.
 - [Poder de Combate decimal](CP-DECIMAL.md): entrada com vírgula/ponto, armazenamento, apresentação e compatibilidade.
+- [Referências comunitárias de CP](CP-COMUNITARIO.md): oito faixas preliminares, classificação, amostras e limitações de origem.
 
 ## Relatórios de implementação
 

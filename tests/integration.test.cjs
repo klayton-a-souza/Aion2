@@ -1,11 +1,12 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 function environment(){const map=new Map(),nodes=new Map(),messages=[];function node(id){if(!nodes.has(id))nodes.set(id,{_value:'',get value(){return this._value},set value(v){this._value=String(v)},checked:false,hidden:false,textContent:'',innerHTML:'',children:[],dataset:{},classList:{toggle(){},add(){},remove(){}},appendChild(x){this.children.push(x)},querySelectorAll(){return []},querySelector(){return node('form')},focus(){},reset(){},click(){},remove(){}});return nodes.get(id)}
 const localStorage={getItem(k){return map.has(k)?map.get(k):null},setItem(k,v){map.set(k,v)},removeItem(k){map.delete(k)}};
 const document={getElementById:node,querySelector(){return node('query')},querySelectorAll(){return []},createElement(){return node('created-'+Math.random())},body:node('body'),addEventListener(){}};
 const ctx=vm.createContext({Date,Math,Set,Intl,console,document,window:{confirm(){return true}},localStorage,setTimeout(){},Blob,URL:{createObjectURL(){return 'blob:test'},revokeObjectURL(){}},FileReader:class{readAsText(file){this.result=file.content;this.onload()}}});
-const html=fs.readFileSync('index.html','utf8');for(const match of html.matchAll(/<script src="([^"]+)"/g))vm.runInContext(fs.readFileSync(match[1],'utf8'),ctx);ctx.showToast=(m)=>messages.push(m);return {ctx,map,node,messages,localStorage}}
+const html=fs.readFileSync('index.html','utf8');for(const match of html.matchAll(/<script src="([^"]+)"/g))runArchitectureScript(fs.readFileSync(match[1],'utf8'),ctx);ctx.showToast=(m)=>messages.push(m);return {ctx,map,node,messages,localStorage}}
 const env=environment(),ctx=env.ctx;
-vm.runInContext(`
+runArchitectureScript(`
 loadState();renderApp();if(!document.getElementById('character-list').innerHTML.includes('Nenhum personagem'))throw Error('Dashboard vazio');
 function character(name,il,main){document.getElementById('character-id').value='';document.getElementById('character-name').value=name;document.getElementById('character-class').value='Classe';document.getElementById('character-ilevel').value=il;document.getElementById('character-main').checked=main;saveCharacter({preventDefault(){}})}
 character('Principal','',true);if(AION_STATE.data.characters.length)throw Error('iLvl vazio');character('Principal','-1',true);if(AION_STATE.data.characters.length)throw Error('iLvl negativo');character('Principal','123.5',true);character('Alt A','50',false);character('Alt B','80',false);if(AION_STATE.data.characters.length!==3)throw Error('Cadastro');

@@ -6,9 +6,9 @@ var APP_ROUTES={home:{page:"dashboard-page",nav:"nav-home",title:"Visão Geral"}
 function routeFromHash(hash){var key=String(hash||"").replace(/^#/,"");return Object.prototype.hasOwnProperty.call(APP_ROUTES,key)?key:"home"}
 function applyRoute(){var key=routeFromHash(window.location.hash);Object.keys(APP_ROUTES).forEach(function(name){var route=APP_ROUTES[name],page=document.getElementById(route.page),nav=document.getElementById(route.nav);if(page)page.hidden=name!==key;if(nav){nav.classList.toggle("is-active",name===key);if(name===key)nav.setAttribute("aria-current","page");else nav.removeAttribute("aria-current")}});document.querySelector(".topbar h1").textContent=APP_ROUTES[key].title;progressPage=key==="progression";if(currentInterfaceRoute!==key){currentInterfaceRoute=key}}
 function navigateTo(key){if(!Object.prototype.hasOwnProperty.call(APP_ROUTES,key))key="home";if(window.location.hash!=="#"+key)window.location.hash=key;applyRoute()}
-showPage=function(progress){navigateTo(progress?"progression":"home")};
-showActivities=function(){navigateTo("activities")};
-document.addEventListener("DOMContentLoaded",function(){
+A2.extensions.register("navigation","showPage",function(previous){return function(progress){navigateTo(progress?"progression":"home")};});
+A2.extensions.register("navigation","showActivities",function(previous){return function(){navigateTo("activities")};});
+A2.lifecycle.register("navigation",function(){
   document.getElementById("sidebar-toggle").onclick=toggleSidebar;
   var main=document.querySelector(".main-content");main.insertBefore(document.getElementById("characters-page"),document.querySelector(".page-footer"));
   var navs=document.querySelectorAll(".nav-item");navs[1].id="nav-characters";

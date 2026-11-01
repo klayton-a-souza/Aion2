@@ -4,6 +4,8 @@ Aplicação pessoal para gerenciar personagens, progressão permanente e ativida
 
 ## Documentação
 
+- [Arquitetura modular e organização do código](docs/ARQUITETURA.md)
+
 - [Índice e relatórios das Etapas 1–5](docs/README.md)
 - [Programação comunitária de eventos Global LA](docs/EVENTOS-GLOBAL-LA.md)
 - [Suporte a CP decimal](docs/CP-DECIMAL.md)

@@ -1,3 +1,4 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const elements=new Map();
 function element(id){if(!elements.has(id))elements.set(id,{hidden:false,textContent:'',innerHTML:'',querySelectorAll(){return []}});return elements.get(id)}
@@ -6,7 +7,7 @@ const characters=[
   {id:'alt',name:'LadyFuria',className:'Clériga',ilevel:1324,type:'alt',server:'',faction:'',ilevelUpdatedAt:null}
 ];
 const ctx=vm.createContext({console,Date,AION_STATE:{data:{characters,preferences:{activeCharacterId:characters[0].id}}},document:{getElementById:element,addEventListener(){}}});
-for(const file of ['data/character-guides.js','js/app.js','js/characters.js'])vm.runInContext(fs.readFileSync(file,'utf8'),ctx);
+for(const file of ['data/character-guides.js','js/characters/controller.js','js/characters/roster.js'])runArchitectureScript(fs.readFileSync(file,'utf8'),ctx);
 const initial=JSON.stringify(ctx.AION_STATE.data);
 assert.equal(ctx.rosterCharacter(characters).id,characters[0].id);
 ctx.renderCharacterRoster(characters);

@@ -1,12 +1,13 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const ctx=vm.createContext({console,Date,Math,Set,Map,Intl,document:{addEventListener(){}}});
-for(const file of ['data/defaults.js','js/cp-values.js','js/state.js','js/cycles.js'])vm.runInContext(fs.readFileSync(file,'utf8'),ctx);
-vm.runInContext('function showToast(){};function renderApp(){};function setObjectiveDone(planId,id,done){var p=planById(planId);var o=p.stages.flatMap(s=>s.objectives).find(o=>o.id===id);o.done=done;o.completedAt=done?new Date().toISOString():null};function nextPlanObjective(){};function dashboardPlanHtml(){};function renderDashboard(){};function renderCharacterDashboard(){};',ctx);
-vm.runInContext(fs.readFileSync('js/progression.js','utf8'),ctx);
-vm.runInContext('function openModal(){};function card(){};function date(){};',ctx);
-vm.runInContext(fs.readFileSync('js/character-progress.js','utf8'),ctx);
-vm.runInContext(fs.readFileSync('js/milestones.js','utf8'),ctx);
-vm.runInContext(`
+for(const file of ['data/defaults.js','js/shared/cp-values.js','js/core/state.js','js/activities/cycles.js'])runArchitectureScript(fs.readFileSync(file,'utf8'),ctx);
+runArchitectureScript('function showToast(){};function renderApp(){};function setObjectiveDone(planId,id,done){var p=planById(planId);var o=p.stages.flatMap(s=>s.objectives).find(o=>o.id===id);o.done=done;o.completedAt=done?new Date().toISOString():null};function nextPlanObjective(){};function dashboardPlanHtml(){};function renderDashboard(){};function renderCharacterDashboard(){};',ctx);
+runArchitectureScript(fs.readFileSync('js/progression/plans.js','utf8'),ctx);
+runArchitectureScript('function openModal(){};function card(){};function date(){};',ctx);
+runArchitectureScript(fs.readFileSync('js/characters/history.js','utf8'),ctx);
+runArchitectureScript(fs.readFileSync('js/progression/milestones.js','utf8'),ctx);
+runArchitectureScript(`
 function check(ok,message){if(!ok)throw Error(message)}
 AION_STATE.data=createInitialState();
 AION_STATE.data.characters=[['main','L0rdFuria',2033,98077,'main'],['alt1','WarriorL0rd',1644,79213,'alt'],['alt2','LadyFuria',1637,75480,'alt'],['alt3','MästerFuria',1430,71723,'alt']].map(x=>({id:x[0],name:x[1],className:'Classe',ilevel:x[2],combatPower:x[3],type:x[4]}));AION_STATE.data=prepareState(AION_STATE.data);

@@ -1,0 +1,1 @@
+module.exports=function(vm,fs,code,context){if(!context.A2)vm.runInContext(fs.readFileSync('js/core/runtime.js','utf8'),context);const result=vm.runInContext(code,context);context.A2.extensions.composePending();return result;};

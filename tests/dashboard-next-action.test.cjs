@@ -1,3 +1,4 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
@@ -13,9 +14,9 @@ const ctx = vm.createContext({
   setTimeout() {}
 });
 for (const match of fs.readFileSync('index.html', 'utf8').matchAll(/<script src="([^"]+)"/g)) {
-  vm.runInContext(fs.readFileSync(match[1], 'utf8'), ctx);
+  runArchitectureScript(fs.readFileSync(match[1], 'utf8'), ctx);
 }
-vm.runInContext(`
+runArchitectureScript(`
   renderApp=function(){};showToast=function(){};loadState();
   AION_STATE.data.characters=[
     {id:makeId(),name:'Principal',className:'Classe',ilevel:100,type:'main',server:'',faction:'',ilevelUpdatedAt:null},
@@ -58,7 +59,7 @@ assert.equal(ctx.completeNextDashboardObjective(ctx.p.id, ctx.last.id), true);
 assert.equal(ctx.planStats(ctx.p.stages).percent, 100);
 assert.equal(ctx.p.status, 'active');
 assert.equal(ctx.completeNextDashboardObjective(ctx.p.id, ctx.last.id), false);
-assert.equal(vm.runInContext('JSON.stringify({other:other,account:account,characters:AION_STATE.data.characters,activities:AION_STATE.data.activities,cycles:AION_STATE.data.activityCycles})', ctx), ctx.unrelated);
+assert.equal(runArchitectureScript('JSON.stringify({other:other,account:account,characters:AION_STATE.data.characters,activities:AION_STATE.data.activities,cycles:AION_STATE.data.activityCycles})', ctx), ctx.unrelated);
 ctx.setObjectiveDone(ctx.p.id, ctx.first.id, false);
 assert.equal(ctx.nextPlanObjective(ctx.p).objective.id, ctx.first.id);
 assert.equal(ctx.first.completedAt, null);

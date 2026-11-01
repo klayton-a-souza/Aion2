@@ -14,8 +14,8 @@ function validateEventCalendar(data){
     if(e.registration!==null){var r=e.registration;if(!r||!Number.isInteger(r.openOffsetMinutes)||!Number.isInteger(r.closeOffsetMinutes)||r.openOffsetMinutes< -1440||r.closeOffsetMinutes>1440||r.openOffsetMinutes>=r.closeOffsetMinutes||e.durationMinutes!==null&&r.closeOffsetMinutes>e.durationMinutes)throw Error('Janela de inscrição inválida.')}
   });var keys=new Set();data.alertHistory.forEach(function(a){if(!a||typeof a.key!=='string'||!a.key||keys.has(a.key)||!Number.isFinite(Date.parse(a.sentAt)))throw Error('Histórico de avisos inválido.');keys.add(a.key)});return data;
 }
-var eventsPreviousPrepare=prepareState;
-prepareState=function(data){var next=eventsPreviousPrepare(data);if(next.eventCalendar===undefined)next.eventCalendar=initialEventCalendar();validateEventCalendar(next.eventCalendar);return next};migrateState=prepareState;
+
+A2.extensions.register("events-data","prepareState",function(eventsPreviousPrepare){return function(data){var next=eventsPreviousPrepare(data);if(next.eventCalendar===undefined)next.eventCalendar=initialEventCalendar();validateEventCalendar(next.eventCalendar);return next};});
 
 var eventFormatters=new Map(),eventOffsetCache=new Map();
 function eventParts(instant,timezone){var formatter=eventFormatters.get(timezone);if(!formatter){formatter=new Intl.DateTimeFormat('en-GB',{timeZone:timezone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});eventFormatters.set(timezone,formatter)}var p={};formatter.formatToParts(new Date(instant)).forEach(function(part){if(part.type!=='literal')p[part.type]=Number(part.value)});return p}

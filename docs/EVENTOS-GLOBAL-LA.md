@@ -68,11 +68,11 @@ Versão do pacote: global-la-triniel-2026-11-01-v1. O calendário continua versi
 
 ## Resets existentes
 
-Nenhuma regra de reset foi alterada. O editor informa os resets atuais persistidos em Atividades, para comparação com os marcos informativos da agenda. js/cycles.js e js/activities.js permanecem sem alterações. O usuário pode ter resets diferentes e eles são preservados; configurar eventos de reset não modifica dias, horários ou conclusões de atividades.
+Nenhuma regra de reset foi alterada. O editor informa os resets atuais persistidos em Atividades, para comparação com os marcos informativos da agenda. js/activities/cycles.js e js/activities/controller.js permanecem sem alterações. O usuário pode ter resets diferentes e eles são preservados; configurar eventos de reset não modifica dias, horários ou conclusões de atividades.
 
 ## Arquivos e verificação
 
-Implementação: index.html, js/events-data.js, js/events.js, css/events.css, js/events-community.js e js/events-community-ui.js. O cache de formatação de datas evita recriar formatadores para centenas de ocorrências da programação horária.
+Implementação: index.html, js/events/domain.js, js/events/view.js, css/events.css, js/events/community.js e js/events/community-view.js. O cache de formatação de datas evita recriar formatadores para centenas de ocorrências da programação horária.
 
 Testes novos: tests/events-community.test.cjs e tests/events-community.browser.cjs. Os testes anteriores de agenda foram atualizados para reconhecer os novos padrões; a fixture de dashboard isola o calendário para manter seus testes de ausência de programação, sem alterar os dados da aplicação.
 
@@ -80,7 +80,7 @@ Testes novos: tests/events-community.test.cjs e tests/events-community.browser.c
 - Seis fluxos de navegador aprovados: programação comunitária, agenda anterior, Home, CP, Personagens e Marcos.
 - Testados 24 Shugo/24 invasões diárias, Fenda/Kaira, alternativa de grupo única, Arena 180/120 min, resets instantâneos UTC, metadados, aliases/conflitos, dados personalizados, favoritos/inativas, edição após migração, reload, exportação/importação e ausência de duplicação.
 - Chromium via file:// com rede offline e relógio controlado. Sem erros de console ou pageerror; sem overflow horizontal em desktop/mobile, inclusive no editor. Notificações nativas seguem simuladas nos testes, sem emissão real no sistema operacional.
-- git diff --check aprovado; diff de js/cycles.js e js/activities.js vazio.
+- git diff --check aprovado; diff de js/activities/cycles.js e js/activities/controller.js vazio.
 
 Capturas: a2-community-events-desktop.png e a2-community-events-mobile.png em C:/Users/Klayton/.codex/visualizations/2026/11/01/01a1965b-2141-77d3-82df-ac136d76ecf9/. O teste preserva um fuso de exibição UTC personalizado; por isso a captura mostra a conversão das horas da programação São Paulo, não troca do fuso dos eventos.
 

@@ -1,7 +1,8 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const memory=new Map(),ctx=vm.createContext({Date,Math,Set,Intl,console,document:{addEventListener(){},getElementById(){return null}},localStorage:{setItem(k,v){memory.set(k,v)},getItem(k){return memory.has(k)?memory.get(k):null},removeItem(k){memory.delete(k)}},setTimeout(){}});
-['data/defaults.js','js/state.js','js/cycles.js','js/storage.js','js/backup.js','js/app.js','js/plan-context.js','js/progression.js','js/activities.js'].forEach(f=>vm.runInContext(fs.readFileSync(f,'utf8'),ctx));
-vm.runInContext(`
+['data/defaults.js','js/core/state.js','js/activities/cycles.js','js/core/storage.js','js/core/backup.js','js/characters/controller.js','js/progression/context.js','js/progression/plans.js','js/activities/controller.js'].forEach(f=>runArchitectureScript(fs.readFileSync(f,'utf8'),ctx));
+runArchitectureScript(`
 loadState();var now=new Date('2026-10-11T12:00:00Z');AION_STATE.data.resetSettings={timezone:'UTC',dailyTime:'13:00',weeklyDay:1,weeklyTime:'13:00'};
 var c1={id:makeId(),name:'Um',className:'Classe',ilevel:1,type:'main'},c2={id:makeId(),name:'Dois',className:'Classe',ilevel:1,type:'alt'};AION_STATE.data.characters.push(c1,c2);
 var daily=saveActivity({name:'Conta diária',scope:'account',frequency:'daily'},null,now),weekly=saveActivity({name:'Conta semanal',scope:'account',frequency:'weekly'},null,now),personal=saveActivity({name:'Pessoal',scope:'character',characterId:c1.id,frequency:'daily'},null,now),other=saveActivity({name:'Outra',scope:'character',characterId:c2.id,frequency:'daily'},null,now);

@@ -1,7 +1,8 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const elements=new Map();function element(id){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true,focus(){this.focused=true}});return elements.get(id)}
 const ctx=vm.createContext({document:{getElementById:element},activityAction(){},renderActivities(){},activityOwner(a){return a.scope==='account'?'Conta':a.characterName+' (personagem)'},esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}});
-vm.runInContext(fs.readFileSync('data/activities-catalog.js','utf8'),ctx);vm.runInContext(fs.readFileSync('js/catalog.js','utf8'),ctx);
+runArchitectureScript(fs.readFileSync('data/activities-catalog.js','utf8'),ctx);runArchitectureScript(fs.readFileSync('js/activities/catalog.js','utf8'),ctx);
 const daily=ctx.catalogModel('nightmare'),weekly=ctx.catalogModel('daily-dungeon');
 const activity={name:'Meu Pesadelo',catalogId:daily.id,description:daily.description,frequency:'daily',scope:'character',characterName:'LadyFuria',category:'Catálogo Aion 2'};
 const before=JSON.stringify(activity);ctx.showActivityInformation(activity);let html=element('activity-dialog').innerHTML;

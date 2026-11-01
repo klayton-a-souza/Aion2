@@ -2,6 +2,8 @@
 
 ## Guias atuais
 
+- [Arquitetura modular](ARQUITETURA.md): estrutura, composição, estado e compatibilidade local.
+
 - [Programação comunitária Global LA / Triniel](EVENTOS-GLOBAL-LA.md): horários, fontes, grupos provisórios, migração e pendências.
 - [Poder de Combate decimal](CP-DECIMAL.md): entrada com vírgula/ponto, armazenamento, apresentação e compatibilidade.
 

@@ -1,7 +1,8 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const memory=new Map();const ctx=vm.createContext({console,Date,Math,Set,document:{addEventListener(){},getElementById(){return null}},localStorage:{setItem(k,v){memory.set(k,v)},getItem(k){return memory.has(k)?memory.get(k):null},removeItem(k){memory.delete(k)}},setTimeout(){}});
-['data/defaults.js','js/state.js','js/cycles.js','js/storage.js','js/backup.js','js/app.js','js/plan-context.js','js/progression.js'].forEach(f=>vm.runInContext(fs.readFileSync(f,'utf8'),ctx));
-vm.runInContext(`
+['data/defaults.js','js/core/state.js','js/activities/cycles.js','js/core/storage.js','js/core/backup.js','js/characters/controller.js','js/progression/context.js','js/progression/plans.js'].forEach(f=>runArchitectureScript(fs.readFileSync(f,'utf8'),ctx));
+runArchitectureScript(`
 loadState();
 var p=createPlan('Primeiro','');
 for(var i=0;i<3;i++)p.stages.push({id:makeId(),title:'Etapa '+i,description:'',position:i,objectives:[{id:makeId(),description:'Objetivo '+i,position:0,done:false,completedAt:null}]});
@@ -27,7 +28,7 @@ localStorage.setItem(AION_STORAGE_KEY,'inválido');loadState();if(!AION_STATE.st
 localStorage.getItem=function(){throw Error('bloqueado')};if(loadState().reason!=='unavailable')throw Error('Indisponível');
 `,ctx);
 const html=fs.readFileSync('index.html','utf8');for(const match of html.matchAll(/(?:src|href)="([^"]+)"/g)){if(!match[1].startsWith('#'))assert(fs.existsSync(match[1]),match[1]);assert(!/^https?:/.test(match[1]))}
-vm.runInContext(`
+runArchitectureScript(`
 AION_STATE.data=createInitialState();AION_STATE.storageAvailable=true;AION_STATE.storageBlocked=false;
 var deletionStorage=new Map();localStorage.setItem=function(k,v){deletionStorage.set(k,v)};localStorage.getItem=function(k){return deletionStorage.has(k)?deletionStorage.get(k):null};localStorage.removeItem=function(k){deletionStorage.delete(k)};
 AION_STATE.data.characters.push({id:makeId(),name:'Preservado',className:'Classe',ilevel:100,type:'main',server:'',faction:'',ilevelUpdatedAt:null});

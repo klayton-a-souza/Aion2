@@ -32,4 +32,6 @@ function prepareState(data){
   ["daily","weekly"].forEach(function(f){var c=next.activityCycles[f];if(c)c.items.forEach(function(i){var a=next.activities.find(function(x){return x.id===i.activityId});if(!a||a.frequency!==f||a.revision!==i.revision||a.scope!==i.scope||a.characterId!==i.characterId)throw new Error("Referência inconsistente no ciclo atual.")})});
   var chosen=next.characters.find(function(c){return c.id===next.preferences.activeCharacterId})||next.characters.find(function(c){return c.type==="main"})||next.characters[0];next.preferences.activeCharacterId=chosen?chosen.id:null;next.schemaVersion="1.4.0";return next;
 }
-migrateState=prepareState;
+
+
+function migrateState(data){return prepareState(data)}

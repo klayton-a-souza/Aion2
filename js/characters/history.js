@@ -1,6 +1,6 @@
 // Schema 1.5: type remains the single source of truth for Main.
-var prepareLegacyState=prepareState;
-prepareState=function(data){
+
+A2.extensions.register("character-progress","prepareState",function(prepareLegacyState){return function(data){
   var input=cloneData(data);
   if(input&&input.schemaVersion==='1.5.0')input.schemaVersion='1.4.0';
   var next=prepareLegacyState(input);
@@ -19,10 +19,10 @@ prepareState=function(data){
     });
   });
   next.schemaVersion='1.5.0';return next;
-};
-migrateState=prepareState;
-var createLegacyInitialState=createInitialState;
-createInitialState=function(){return prepareState(createLegacyInitialState())};
+};});
+
+
+A2.extensions.register("character-progress","createInitialState",function(createLegacyInitialState){return function(){return prepareState(createLegacyInitialState())};});
 
 function recordCharacterProgress(character,previous,now){
   var changes={};
@@ -36,11 +36,11 @@ function characterProgressMarkup(c){
   return '<div class="ilevel"><span>Poder de Combate (CP)</span><strong>'+(formatCombatPower(c.combatPower))+'</strong></div><p>CP atualizado: '+date(c.combatPowerUpdatedAt)+'</p><details><summary>Histórico de evolução ('+history.length+')</summary>'+(history.length?'<ul>'+history.slice().reverse().map(function(h){return '<li>'+esc(new Date(h.recordedAt).toLocaleString('pt-BR'))+' · '+esc(h.source==='manual-create'?'Cadastro manual':h.source==='manual-edit'?'Edição manual':h.source)+': '+Object.keys(h.changes).map(function(key){var change=h.changes[key];return (key==='ilevel'?'iLvl':'CP')+' '+esc(change.from===null?'não informado':key==='combatPower'?formatCombatPower(change.from):String(change.from))+' → '+esc(change.to===null?'não informado':key==='combatPower'?formatCombatPower(change.to):String(change.to))}).join('; ')+'</li>'}).join('')+'</ul>':'<p>Nenhuma alteração registrada.</p>')+'</details>';
 }
 // Extend the existing form and card without changing routes or their handlers.
-var openLegacyCharacterModal=openModal;
-openModal=function(id){openLegacyCharacterModal(id);var c=AION_STATE.data.characters.find(function(x){return x.id===id});document.getElementById('character-cp').value=combatPowerInputValue(c?c.combatPower:null)};
-var legacyCharacterCard=card;
-card=function(c){return legacyCharacterCard(c).replace('<dl class="character-detail-meta">',characterProgressMarkup(c)+'<dl class="character-detail-meta">')};
-document.addEventListener('DOMContentLoaded',function(){
+
+A2.extensions.register("character-progress","openModal",function(openLegacyCharacterModal){return function(id){openLegacyCharacterModal(id);var c=AION_STATE.data.characters.find(function(x){return x.id===id});document.getElementById('character-cp').value=combatPowerInputValue(c?c.combatPower:null)};});
+
+A2.extensions.register("character-progress","card",function(legacyCharacterCard){return function(c){return legacyCharacterCard(c).replace('<dl class="character-detail-meta">',characterProgressMarkup(c)+'<dl class="character-detail-meta">')};});
+A2.lifecycle.register("character-progress",function(){
   var label=document.createElement('label');label.textContent='Poder de Combate (CP) — opcional';
   var input=document.createElement('input');input.id='character-cp';input.type='text';input.inputMode='decimal';input.placeholder='Ex.: 98,30 (sem separador de milhar)';label.appendChild(input);
   document.getElementById('character-ilevel').parentElement.insertAdjacentElement('afterend',label);

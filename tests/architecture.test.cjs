@@ -1,0 +1,10 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const html=fs.readFileSync('index.html','utf8'),scripts=Array.from(html.matchAll(/<script src="([^"]+)"/g),m=>m[1]);assert.equal(scripts[0],'js/core/runtime.js');assert.equal(scripts.at(-1),'js/bootstrap.js');
+for(const path of scripts){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'));if(path!=='js/bootstrap.js')assert(!/document\.addEventListener\(['"]DOMContentLoaded/.test(fs.readFileSync(path,'utf8')),path)}
+const ctx=vm.createContext({console});vm.runInContext(fs.readFileSync('js/core/runtime.js','utf8'),ctx);
+vm.runInContext(`var calls=[],AION_STATE={data:{value:0}},cloneData=x=>JSON.parse(JSON.stringify(x));function prepareState(data){calls.push('validate');if(data.value<0)throw Error('invalid')}function saveState(){calls.push('persist');return true}function renderApp(){calls.push('render')}function base(x){return x+1}
+A2.extensions.register('a','base',previous=>x=>previous(x)*2);A2.extensions.register('b','base',previous=>x=>previous(x)+3);A2.extensions.composePending(['b','a']);if(base(1)!==10)throw Error('Order');A2.extensions.composePending();if(base(1)!==10)throw Error('Double composition');
+A2.lifecycle.register('a',()=>calls.push('init-a'));A2.lifecycle.register('b',()=>calls.push('init-b'));A2.lifecycle.start();A2.lifecycle.start();if(calls.join(',')!=='init-a,init-b')throw Error('Double initialization');calls=[];
+var result=A2.store.transact(()=>AION_STATE.data.value=1);if(!result.ok||calls.join(',')!=='validate,persist,render')throw Error('Flow');calls=[];result=A2.store.transact(()=>AION_STATE.data.value=-1);if(result.ok||AION_STATE.data.value!==1||calls.join(',')!=='validate')throw Error('Rollback');
+saveState=()=>false;result=A2.store.transact(()=>AION_STATE.data.value=2);if(!result.ok||result.saved||AION_STATE.data.value!==2)throw Error('Session persistence fallback');`,ctx);
+console.log('PASS arquitetura: scripts locais, inicialização única, composição ordenada/idempotente, transações, rollback e preservação em memória sem escrita.');

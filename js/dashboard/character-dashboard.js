@@ -78,5 +78,5 @@ function renderDashboard(){if(!document.getElementById('progress-summary'))retur
 bindActivityVisibility('dashboard');
 var link=document.getElementById("dashboard-link-plan");if(link)link.onclick=function(){progressionFilter="all";selectedPlanId=null;renderProgress();showPage(true)};
 document.querySelectorAll('[data-dashboard-objective]').forEach(function(input){input.onchange=function(){changePlans(function(){setObjectiveDone(input.dataset.plan,input.dataset.dashboardObjective,input.checked)})}});document.querySelectorAll('[data-dashboard-activity]').forEach(function(input){input.onchange=function(){activityMutation(function(){toggleActivity(input.dataset.dashboardActivity,input.checked)})}});restoreDashboardFocus(focus)}
-var dashboardPreviousRender=renderApp;renderApp=function(){var focus=rememberDashboardFocus();rememberSectionExpansion('character-dashboard',document.getElementById('character-summary'));if(AION_STATE.data&&syncActiveCharacter())saveState();dashboardPreviousRender();renderDashboard();restoreDashboardFocus(focus)};
-document.addEventListener('DOMContentLoaded',renderDashboard);
+A2.extensions.register("dashboard","renderApp",function(dashboardPreviousRender){return function(){var focus=rememberDashboardFocus();rememberSectionExpansion('character-dashboard',document.getElementById('character-summary'));if(AION_STATE.data&&syncActiveCharacter())saveState();dashboardPreviousRender();renderDashboard();restoreDashboardFocus(focus)};});
+A2.lifecycle.register("dashboard",renderDashboard);

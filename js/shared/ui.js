@@ -1,5 +1,5 @@
 // Basic keyboard behavior shared by the existing modals.
-document.addEventListener("DOMContentLoaded",function(){
+A2.lifecycle.register("ui",function(){
   document.querySelector('.skip-link').onclick=function(e){
     e.preventDefault();
     var content=document.getElementById('main-content');

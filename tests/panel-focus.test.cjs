@@ -1,10 +1,11 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
 const document={activeElement:null,getElementById(id){return root.nodes.find(n=>n.id===id)}};
 const root={nodes:[],contains(node){return this.nodes.includes(node)},querySelectorAll(){return this.nodes},closest(){return this.inert?{}:null},focus(){document.activeElement=this}};
 function node(attrs={}){return {id:attrs.id,disabled:false,getAttribute(key){return attrs[key]??null},hasAttribute(key){return key in attrs},focus(){document.activeElement=this}}}
 const ctx=vm.createContext({document});
-const source=fs.readFileSync('js/progression.js','utf8');
-vm.runInContext(source.slice(source.indexOf('function panelFocusToken'),source.indexOf('// UI-only state')),ctx);
+const source=fs.readFileSync('js/progression/plans.js','utf8');
+runArchitectureScript(source.slice(source.indexOf('function panelFocusToken'),source.indexOf('// UI-only state')),ctx);
 const old=node({'data-activity-action':'edit','data-id':'a'});root.nodes=[old];document.activeElement=old;
 const token=ctx.panelFocusToken(root),other=node({'data-activity-action':'edit','data-id':'b'}),replacement=node({'data-activity-action':'edit','data-id':'a'});
 root.nodes=[other,replacement];ctx.restorePanelFocus(root,token);assert.equal(document.activeElement,replacement);

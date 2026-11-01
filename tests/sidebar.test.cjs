@@ -1,9 +1,10 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const attrs={},classes=new Set();
 const sidebar={classList:{toggle(name,on){on?classes.add(name):classes.delete(name)}}};
 const button={setAttribute(name,value){attrs[name]=value},innerHTML:''};
 const ctx=vm.createContext({document:{getElementById(id){return id==='sidebar'?sidebar:button},addEventListener(){}},window:{}});
-vm.runInContext(fs.readFileSync('js/navigation.js','utf8'),ctx);
+runArchitectureScript(fs.readFileSync('js/core/navigation.js','utf8'),ctx);
 ctx.toggleSidebar();assert(classes.has('is-collapsed'));assert.equal(attrs['aria-expanded'],'false');assert.equal(attrs['aria-label'],'Expandir menu lateral');
 ctx.toggleSidebar();assert(!classes.has('is-collapsed'));assert.equal(attrs['aria-expanded'],'true');assert(button.innerHTML.includes('Recolher menu'));
 const html=fs.readFileSync('index.html','utf8');assert(html.includes('id="sidebar-toggle"'));assert(html.includes('href="css/sidebar.css"'));

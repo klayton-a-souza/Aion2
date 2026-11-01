@@ -1,6 +1,7 @@
+function runArchitectureScript(code,context){return require("./helpers/runtime.cjs")(vm,fs,code,context)}
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const ctx=vm.createContext({AION_STATE:{data:{characters:[]}},document:{addEventListener(){}},esc:String,date(){return ''}});
-vm.runInContext(fs.readFileSync('data/character-guides.js','utf8'),ctx);vm.runInContext(fs.readFileSync('js/app.js','utf8'),ctx);
+runArchitectureScript(fs.readFileSync('data/character-guides.js','utf8'),ctx);runArchitectureScript(fs.readFileSync('js/characters/controller.js','utf8'),ctx);
 for(const [name,url] of [
   ['L0rdFuria','https://aion2.gaming.tools/pt-br/builds/assassin/pve'],
   ['WarriorL0rd','https://aion2.gaming.tools/pt-br/builds/templar/pve'],

@@ -16,3 +16,5 @@
 #activities-page .activity-complete{border-left:3px solid var(--accent)}
 @media(max-width:1200px){#activities-page .objective{grid-template-columns:minmax(0,1fr)}#activities-page .objective .plan-toolbar{max-width:420px}}
 @media(max-width:540px){#activities-page .activity-filters{padding:16px}#activities-page .objective{padding:14px;gap:16px}#activities-page .activity-cycle-heading{gap:12px}#activities-page .activity-cycle-heading button{width:100%}#activities-page .objective .plan-toolbar{max-width:none}}
+
+.activity-scope-heading{margin:20px 0 12px;font-size:.9rem;color:var(--accent-2);overflow-wrap:anywhere}

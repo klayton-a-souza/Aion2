@@ -58,3 +58,15 @@
 
 .character-detail-card>.character-cp{grid-area:cp}
 .character-detail-card>.character-cp-updated{grid-area:updated;margin:0 0 16px;color:var(--muted);font-size:.8rem}
+
+.character-customization{margin:20px 0;border-top:1px solid var(--border);padding-top:12px;min-width:0}
+.character-customization>summary{cursor:pointer;color:var(--accent-2);min-height:44px;padding:10px 0}
+.character-customization fieldset{border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0;min-width:0}
+.character-customization legend{color:var(--accent-2);padding:0 6px}
+.character-customization p{font-size:.8rem;color:var(--muted);overflow-wrap:anywhere}
+.character-customization .form-error{color:var(--danger)}
+.character-image-preview{width:128px;max-width:100%;margin-bottom:12px}
+.character-image-preview img{width:100%;height:auto;aspect-ratio:1;object-fit:cover}
+.character-customization input[type=file]{max-width:100%;font-size:.8rem}
+.character-customization button{min-height:44px}
+.character-customization .plan-toolbar{flex-wrap:wrap}

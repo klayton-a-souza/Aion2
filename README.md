@@ -1,3 +1,12 @@
+Para personalizar retrato, links de Guia/Perfil e ícone, use **Personagens → Novo personagem / Editar → Imagem, links e ícone**. As personalizações ficam no navegador e no backup. Veja [o guia de personalização](docs/PERSONAGENS-PERSONALIZACAO.md).
+
+## Interface atual
+
+A navegação reúne Visão geral, Personagens, Atividades e Eventos e Horários. A seção Progressão foi retirada. A análise em Personagens mantém comparação de CP, meta automática por faixa de iLvl, histórico e observações. A Visão geral mostra os atributos dos personagens, atividades e eventos. Planos antigos continuam preservados nos dados locais e nos backups, sem editor na interface. Links antigos para `#progression` abertos na inicialização levam a Personagens.
+
+<details>
+<summary>Documentação histórica dos planejamentos e da implementação anterior</summary>
+
 # AION 2 — V1
 
 Aplicação pessoal para gerenciar personagens, progressão permanente e atividades diárias/semanais. Feita com HTML5, CSS3 e JavaScript convencional, sem instalação, compilação, servidor, backend ou dependências externas obrigatórias.
@@ -68,7 +77,7 @@ O histórico atual e os ciclos são independentes dos planos. Concluir/cancelar/
 
 ## Catálogo Aion 2
 
-Use **Adicionar atividades do catálogo** para consultar os **16 modelos (7 diários e 9 semanais)**. Selecione um ou vários, escolha escopo e personagem por modelo, defina se entram ativos/inativos e confirme o conjunto. Não há inclusão automática. Duplicatas de modelo + escopo + personagem são ignoradas, mesmo renomeadas ou inativas. Tarefas personalizadas não são substituídas.
+Use **Adicionar atividades do catálogo** para consultar os **16 modelos (8 diários e 8 semanais)**. Selecione um ou vários, escolha escopo e personagem por modelo, defina se entram ativos/inativos e confirme o conjunto. Não há inclusão automática. Duplicatas de modelo + escopo + personagem são ignoradas, mesmo renomeadas ou inativas. Tarefas personalizadas não são substituídas.
 
 O botão **Informações** apresenta nome original e indicadores da frequência e escopo cadastrados, seguidos de **O que é?**, **O que preciso fazer?**, **Como acessar?** (quando específico), **Limites e disponibilidade**, **Dicas importantes** e fontes no final. Descrições iguais aparecem uma vez; textos personalizados diferentes são preservados em **Minha descrição**. Requisitos genéricos não confirmados ficam em observação discreta. Atividades manuais mostram apenas seus próprios dados. O catálogo reutiliza a mesma organização; não há alteração do esquema, checklists ou resets. A seção de recursos explica **Energia Odyle**, **Tentativas de Pesadelo** e **Chaves do Festival Shugo**, sem simulação de regeneração.
 
@@ -137,3 +146,5 @@ Não executados neste ambiente: abertura real `file://`, publicação/execução
 
 Refinamento 01 solicitado e implementado: página de Personagens e três guias. Testes de navegação/estrutura/URLs e histórico simulados passaram, além das regressões de personagens, persistência e backups. Pendente manual: abrir `index.html#home`, navegar até Personagens, editar/cadastrar/excluir um personagem de teste, abrir cada guia, usar Voltar/Avançar, recarregar diretamente em `#characters` e conferir desktop/celular. A validação real de `file://` permanece pendente.
 Refinamento 02: a suíte contextual cobre seleção persistida sem alterar Principal, ativos simultâneos por escopo, bloqueio de conflitos, transferência/vínculos removidos, checkboxes e próximo objetivo, conclusão explícita, compartilhamento de atividades, reset diário independente do semanal/plano e migração 1.3.0→1.4.0 com restauração de backup. As regressões existentes cobrem personagens/guias, catálogo, cancelamento/exclusão/históricos e persistência. Para validação manual, abra `index.html`, selecione personagens diferentes, crie/ative seus planos, marque/desmarque objetivos e atividades nas duas páginas, confira o próximo objetivo, exporte/restaure JSON e reabra o navegador. Use registros de teste e exporte os dados reais antes de testar exclusões.
+
+</details>

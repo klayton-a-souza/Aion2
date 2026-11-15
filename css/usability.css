@@ -25,3 +25,20 @@
   #account-dashboard .account-main{padding:20px}
   #account-dashboard .account-alt{padding:16px}
 }
+
+/* Focused improvements from the ten-pass usability review. */
+.activity-row-tools button{min-width:44px;min-height:44px}
+[aria-invalid="true"]{border-color:var(--danger)!important;outline:1px solid var(--danger)}
+.character-analysis-link{margin-bottom:16px}
+#cp-assessment-title{scroll-margin-top:24px}
+.toast-region.modal-active{top:12px;bottom:auto;z-index:6;pointer-events:none;max-height:20dvh;overflow:hidden}
+.events-source p{overflow-wrap:anywhere}
+.catalog-filters{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin:16px 0}
+.catalog-selection-status{margin:10px 0;color:var(--accent-2)}
+.catalog-bulk{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+.catalog-bulk label{flex:1;min-width:180px}
+.catalog-empty{padding:16px;color:var(--muted)}
+.catalog-item[hidden]{display:none}
+@media(max-width:760px){.character-portrait-placeholder{aspect-ratio:auto;min-height:64px;padding:12px}.catalog-filters{grid-template-columns:1fr}.toast-region.modal-active{top:8px;left:8px;right:8px}.catalog-bulk button{width:100%}}
+
+.toast-region.modal-active .toast:not(.error){display:none}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AION 2 — acompanhamento pessoal de progressão">
-  <title>AION 2 · Progressão pessoal · V1</title>
+  <meta name="description" content="AION 2 — acompanhamento de personagens e atividades">
+  <title>AION 2 · Personagens e atividades · V1</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -26,7 +26,7 @@
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <button id="sidebar-toggle" class="button button-ghost sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="true" aria-label="Recolher menu lateral" title="Recolher menu lateral">☰ <span>Recolher menu</span></button>
-      <div class="brand"><span class="brand-mark">✦</span><div><strong>AION 2</strong><small>Progressão pessoal</small></div></div>
+      <div class="brand"><span class="brand-mark">✦</span><div><strong>AION 2</strong><small>Personagens e atividades</small></div></div>
       <nav aria-label="Navegação principal"><button class="nav-item is-active" type="button">◈ <span>Visão geral</span></button><button class="nav-item" type="button" disabled>♙ <span>Personagens</span><em>Em breve</em></button><button class="nav-item" type="button" disabled>⌁ <span>Planos</span><em>Em breve</em></button><button class="nav-item" type="button" disabled>◷ <span>Atividades</span><em>Em breve</em></button></nav>
       <div class="sidebar-footer"><span class="status-dot"></span><span id="storage-label">Armazenamento local</span></div>
     </aside>
@@ -34,7 +34,7 @@
       <div id="storage-notice" class="storage-notice" role="alert" hidden></div>
       <header class="topbar"><div><h1>Visão geral</h1></div><div class="top-actions"><button id="export-button" class="button button-ghost" type="button">↥ Exportar backup</button><button id="import-button" class="button button-ghost" type="button">↧ Importar backup</button><input id="import-file" type="file" accept="application/json,.json" hidden></div></header>
       <section id="character-summary" class="summary-grid"></section>
-      <section class="section-heading compact"><div><p class="eyebrow">PRÓXIMAS JORNADAS</p><h2>Progressão e atividades</h2></div></section>
+      <section class="section-heading compact"><div><p class="eyebrow">ROTINA DOS PERSONAGENS</p><h2>Atividades recorrentes</h2></div></section>
       <div class="card-grid"><article class="feature-card"><span class="card-icon">⌁</span><h3>Planos de progressão</h3><p>Organize metas e transforme sua jornada em passos claros.</p><span class="coming-soon">Disponível em breve</span></article><article class="feature-card"><span class="card-icon">◷</span><h3>Atividades recorrentes</h3><p>O resumo de atividades diárias e semanais aparecerá aqui.</p><span class="coming-soon">Disponível em breve</span></article></div>
       <section class="info-panel"><div class="panel-icon">✓</div><div><h3>Fundação ativa</h3><p>Seus dados ficam neste navegador. Use os controles de backup para manter uma cópia portátil dos seus registros.</p></div></section>
       <footer class="page-footer">AION 2 · Projeto local <span>•</span> Esquema <span id="schema-version">1.0.0</span></footer>
@@ -47,6 +47,7 @@
   <div id="toast-region" class="toast-region" aria-live="polite"></div><div id="character-modal" class="modal-backdrop" hidden><form id="character-form" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" novalidate><div class="modal-header"><div><p class="eyebrow">CADASTRO</p><h2 id="modal-title">Novo personagem</h2></div><button id="close-modal" class="icon-button" type="button" aria-label="Fechar">×</button></div><input id="character-id" type="hidden"><label>Nome<input id="character-name" maxlength="40" required></label><div class="form-grid"><label>Classe<input id="character-class" maxlength="30" required></label><label>iLvl<input id="character-ilevel" type="number" min="0" step="any" required></label><label>Servidor <span class="optional">opcional</span><input id="character-server" maxlength="30"></label><label>Facção <span class="optional">opcional</span><select id="character-faction"><option value="">Não informada</option><option>Elyos</option><option>Asmodianos</option></select></label></div><label class="checkbox-label"><input id="character-main" type="checkbox"> Definir como personagem principal</label><p id="form-error" class="form-error" role="alert"></p><div class="modal-actions"><button id="cancel-modal" class="button button-ghost" type="button">Cancelar</button><button class="button button-primary" type="submit">Salvar personagem</button></div></form></div>
   <script src="js/core/runtime.js"></script><script src="data/defaults.js"></script><script src="data/activities-catalog.js"></script><script src="data/character-guides.js"></script><script src="js/shared/cp-values.js"></script><script src="js/core/state.js"></script><script src="js/activities/cycles.js"></script><script src="js/core/storage.js"></script><script src="js/core/backup.js"></script><script src="js/characters/controller.js"></script><script src="js/characters/roster.js"></script><script src="js/progression/context.js"></script><script src="js/progression/plans.js"></script><script src="js/activities/controller.js"></script><script src="js/activities/catalog.js"></script><script src="js/shared/ui.js"></script><script src="js/core/navigation.js"></script><script src="js/dashboard/character-dashboard.js"></script>
     <script src="js/characters/history.js"></script>
+    <script src="js/characters/customization.js"></script>
     <script src="js/progression/milestones.js"></script>
     <script src="js/dashboard/account-dashboard.js"></script>
     <script src="js/cp/references.js"></script>

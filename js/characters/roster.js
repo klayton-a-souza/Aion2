@@ -15,11 +15,13 @@ var CHARACTER_CLASS_ICONS={
 function rosterCharacter(characters){return characters.find(function(c){return c.id===rosterSelectedCharacterId})||characters.find(function(c){return c.type==='main'})||characters[0]||null}
 function characterClassIcon(c){
   var key=String(c.className||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''),icon=Object.prototype.hasOwnProperty.call(CHARACTER_CLASS_ICONS,key)?CHARACTER_CLASS_ICONS[key]:null;
+  if(c.classIcon&&c.classIcon!=='auto')icon=c.classIcon==='initial'?null:c.classIcon;
+  if(c.classIconData)return '<span class="avatar character-class-icon" aria-hidden="true"><img src="'+esc(c.classIconData)+'" width="24" height="24" alt=""></span>';
   return '<span class="avatar character-class-icon" aria-hidden="true" title="Símbolo ilustrativo da classe">'+(icon?'<img src="assets/icons/classes/'+icon+'.svg" width="24" height="24" alt="">':esc(c.name.charAt(0).toUpperCase()))+'</span>';
 }
 function characterPortrait(c){
-  var src=Object.prototype.hasOwnProperty.call(CHARACTER_PORTRAITS,c.id)?CHARACTER_PORTRAITS[c.id]:null;
-  return src?'<img class="character-portrait" src="'+src+'" width="512" height="512" alt="Retrato de '+esc(c.name)+'">':'<div class="character-portrait-placeholder">Retrato ainda não adicionado</div>';
+  var src=c.portraitData!==undefined&&c.portraitData!==null?c.portraitData:Object.prototype.hasOwnProperty.call(CHARACTER_PORTRAITS,c.id)?CHARACTER_PORTRAITS[c.id]:null;
+  return src?'<img class="character-portrait" src="'+esc(src)+'" width="512" height="512" alt="Retrato de '+esc(c.name)+'">':'<div class="character-portrait-placeholder">Retrato ainda não adicionado</div>';
 }
 function focusRosterAction(action,id){
   var root=document.getElementById('character-list');
@@ -45,6 +47,7 @@ function renderCharacterRoster(characters){
   root.innerHTML='<div class="character-roster-layout"><nav class="character-roster-list" aria-label="Selecionar personagem para consultar a ficha">'+characters.map(function(c){return '<button class="character-roster-choice" type="button" data-roster-character="'+esc(c.id)+'" aria-controls="character-detail" aria-pressed="'+(c.id===selected.id)+'">'+characterClassIcon(c)+'<span class="character-roster-name"><strong>'+esc(c.name)+'</strong><small>'+esc(c.className)+'</small>'+(c.type==='main'?'<span class="main-badge">Principal</span>':'')+'</span></button>'}).join('')+'</nav><div id="character-detail" role="region" aria-labelledby="character-detail-title">'+card(selected)+'</div></div>';
   if(typeof restoreSectionExpansion==='function')restoreSectionExpansion('characters',root);
   root.querySelectorAll('[data-roster-character]').forEach(function(button){button.onclick=function(){rosterSelectedCharacterId=button.dataset.rosterCharacter;if(typeof cpSelectedCharacterId!=='undefined')cpSelectedCharacterId=rosterSelectedCharacterId;renderApp()}});
+  if(root.insertAdjacentHTML){var detail=document.getElementById('character-detail');detail.insertAdjacentHTML('afterbegin','<a class="button button-ghost character-analysis-link" href="#cp-assessment">Ir para análise de CP</a>');detail.querySelector('.character-analysis-link').onclick=function(e){e.preventDefault();var title=document.getElementById('cp-assessment-title');title.focus();title.scrollIntoView({block:'start'})}}
   if(target){
     var buttons=Array.from(root.querySelectorAll('[data-roster-character],[data-action]'));
     var replacement=buttons.find(function(b){return target.character?b.dataset.rosterCharacter===target.character:b.dataset.action===target.action&&b.dataset.id===target.id});

@@ -2,16 +2,16 @@
 var sidebarCollapsed=false;
 var currentInterfaceRoute=null;
 function toggleSidebar(){sidebarCollapsed=!sidebarCollapsed;var sidebar=document.getElementById("sidebar"),button=document.getElementById("sidebar-toggle");sidebar.classList.toggle("is-collapsed",sidebarCollapsed);button.setAttribute("aria-expanded",String(!sidebarCollapsed));var label=sidebarCollapsed?"Expandir menu lateral":"Recolher menu lateral";button.setAttribute("aria-label",label);button.setAttribute("title",label);button.innerHTML='☰ <span>'+(sidebarCollapsed?'Expandir menu':'Recolher menu')+'</span>'}
-var APP_ROUTES={home:{page:"dashboard-page",nav:"nav-home",title:"Visão Geral"},characters:{page:"characters-page",nav:"nav-characters",title:"Personagens"},progression:{page:"progress-page",nav:"nav-progress",title:"Progressão"},activities:{page:"activities-page",nav:"nav-activities",title:"Atividades"}};
+var APP_ROUTES={home:{page:"dashboard-page",nav:"nav-home",title:"Visão Geral"},characters:{page:"characters-page",nav:"nav-characters",title:"Personagens"},activities:{page:"activities-page",nav:"nav-activities",title:"Atividades"}};
 function routeFromHash(hash){var key=String(hash||"").replace(/^#/,"");return Object.prototype.hasOwnProperty.call(APP_ROUTES,key)?key:"home"}
-function applyRoute(){var key=routeFromHash(window.location.hash);Object.keys(APP_ROUTES).forEach(function(name){var route=APP_ROUTES[name],page=document.getElementById(route.page),nav=document.getElementById(route.nav);if(page)page.hidden=name!==key;if(nav){nav.classList.toggle("is-active",name===key);if(name===key)nav.setAttribute("aria-current","page");else nav.removeAttribute("aria-current")}});document.querySelector(".topbar h1").textContent=APP_ROUTES[key].title;progressPage=key==="progression";if(currentInterfaceRoute!==key){currentInterfaceRoute=key}}
+function applyRoute(){var key=routeFromHash(window.location.hash);Object.keys(APP_ROUTES).forEach(function(name){var route=APP_ROUTES[name],page=document.getElementById(route.page),nav=document.getElementById(route.nav);if(page)page.hidden=name!==key;if(nav){nav.classList.toggle("is-active",name===key);if(name===key)nav.setAttribute("aria-current","page");else nav.removeAttribute("aria-current")}});document.querySelector(".topbar h1").textContent=APP_ROUTES[key].title;progressPage=key==="progression";if(currentInterfaceRoute!==key){var hadRoute=currentInterfaceRoute!==null;currentInterfaceRoute=key;if(hadRoute){var heading=document.querySelector(".topbar h1");heading.tabIndex=-1;if(heading.focus)heading.focus({preventScroll:true})}}}
 function navigateTo(key){if(!Object.prototype.hasOwnProperty.call(APP_ROUTES,key))key="home";if(window.location.hash!=="#"+key)window.location.hash=key;applyRoute()}
 A2.extensions.register("navigation","showPage",function(previous){return function(progress){navigateTo(progress?"progression":"home")};});
 A2.extensions.register("navigation","showActivities",function(previous){return function(){navigateTo("activities")};});
 A2.lifecycle.register("navigation",function(){
   document.getElementById("sidebar-toggle").onclick=toggleSidebar;
   var main=document.querySelector(".main-content");main.insertBefore(document.getElementById("characters-page"),document.querySelector(".page-footer"));
-  var navs=document.querySelectorAll(".nav-item");navs[1].id="nav-characters";
+  var navs=document.querySelectorAll(".nav-item");navs[1].id="nav-characters";navs[1].innerHTML="♙ <span>Personagens</span>";
   Object.keys(APP_ROUTES).forEach(function(key){var nav=document.getElementById(APP_ROUTES[key].nav);nav.disabled=false;nav.onclick=function(){navigateTo(key)}});
   window.addEventListener("hashchange",applyRoute);
   if(!window.location.hash)window.history.replaceState(null,"","#home");applyRoute();

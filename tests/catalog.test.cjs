@@ -5,7 +5,7 @@ const memory=new Map();const ctx=vm.createContext({Date,Math,Set,Intl,console,do
 runArchitectureScript(`
 loadState();var now=new Date();var c1={id:makeId(),name:'Um',className:'Classe',ilevel:10,type:'main'},c2={id:makeId(),name:'Dois',className:'Classe',ilevel:20,type:'alt'};AION_STATE.data.characters.push(c1,c2);var plan=createPlan('Plano preservado','');
 var custom=saveActivity({name:'Minha atividade',scope:'account',frequency:'daily'},null,now);toggleActivity(custom.id,true,now);var customBefore=JSON.stringify(custom),plansBefore=JSON.stringify(AION_STATE.data.plans),charactersBefore=JSON.stringify(AION_STATE.data.characters);
-if(ACTIVITIES_CATALOG.length!==16||new Set(ACTIVITIES_CATALOG.map(m=>m.id)).size!==16||CATALOG_RESOURCES.length!==3)throw Error('Contagem catálogo');if(ACTIVITIES_CATALOG.filter(m=>m.frequency==='daily').length!==7||ACTIVITIES_CATALOG.filter(m=>m.frequency==='weekly').length!==9)throw Error('Frequências');
+if(ACTIVITIES_CATALOG.length!==16||new Set(ACTIVITIES_CATALOG.map(m=>m.id)).size!==16||CATALOG_RESOURCES.length!==3)throw Error('Contagem catálogo');if(ACTIVITIES_CATALOG.filter(m=>m.frequency==='daily').length!==8||ACTIVITIES_CATALOG.filter(m=>m.frequency==='weekly').length!==8)throw Error('Frequências');
 ACTIVITIES_CATALOG.forEach(m=>{['name','englishName','description','objective','limits','unlock','guidance','kind'].forEach(k=>{if(!m[k])throw Error('Campo ausente '+k)});if(!catalogDetails(m).includes(m.name==='x'?'x':'Dicas importantes'))throw Error('Detalhes');if(m.sources.length!==2)throw Error('Fontes')});
 var selection=ACTIVITIES_CATALOG.map(m=>({modelId:m.id,scope:m.scope,characterId:m.scope==='character'?c1.id:null}));var result=addCatalogSelection(selection,true,now);if(result.added!==16||result.skipped)throw Error('Inclusão');if(JSON.stringify(custom)!==customBefore||!activityDone(custom)||JSON.stringify(AION_STATE.data.plans)!==plansBefore||JSON.stringify(AION_STATE.data.characters)!==charactersBefore)throw Error('Dados anteriores alterados');
 result=addCatalogSelection(selection,true,now);if(result.added||result.skipped!==16)throw Error('Idempotência');
@@ -18,4 +18,21 @@ var page={querySelectorAll(){return []},children:[],appendChild(x){this.children
 var dialog={querySelectorAll(){return []},querySelector(){return {}}},controls={};document.getElementById=function(id){if(id==='activity-dialog')return dialog;return controls[id]||(controls[id]={focus(){}})};openCatalog();if((dialog.innerHTML.match(/data-model=/g)||[]).length!==16||ACTIVITIES_CATALOG.some(m=>!dialog.innerHTML.includes(m.name)))throw Error('Exibição dos modelos');
 `,ctx);
 const html=fs.readFileSync('index.html','utf8');for(const match of html.matchAll(/(?:src|href)="([^"]+)"/g)){if(!match[1].startsWith('#'))assert(fs.existsSync(match[1]),match[1]);assert(!/^https?:/.test(match[1]))}assert(!/fetch\s*\(/.test(fs.readFileSync('js/activities/catalog.js','utf8')));
-console.log('PASS catálogo: 16 modelos (7/9), 3 recursos, informações/fontes, inclusão por conta e por personagem, duplicatas/inativas, edição/conclusão, persistência, backup, rejeição atômica, preservação de planos/personagens/personalizadas e referências locais. Renderização dos recursos verificada com DOM simulado.');
+console.log('PASS catálogo: 16 modelos (8/8), 3 recursos, informações/fontes, inclusão por conta e por personagem, duplicatas/inativas, edição/conclusão, persistência, backup, rejeição atômica, preservação de planos/personagens/personalizadas e referências locais. Renderização dos recursos verificada com DOM simulado.');
+
+runArchitectureScript(`
+var legacy=cloneData(AION_STATE.data);delete legacy.preferences.abyssCorridorDailyChecklist;
+var corridor=legacy.activities.find(a=>a.catalogId==='abyss-corridor');corridor.frequency='weekly';
+var stampNow=new Date().toISOString(),dailyKey=cycleId('daily',legacy.resetSettings,new Date());
+legacy.activityCycles.weekly={id:cycleId('weekly',legacy.resetSettings,new Date()),frequency:'weekly',openedAt:stampNow,items:[Object.assign(activitySnapshot(corridor),{done:true,completedAt:stampNow})]};
+legacy.activityCycles.daily=null;
+var historyBefore=JSON.stringify(legacy.activityHistory),migrated=prepareState(legacy),converted=migrated.activities.find(a=>a.id===corridor.id);
+if(converted.frequency!=='daily'||!migrated.activityCycles.daily.items.find(i=>i.activityId===corridor.id&&i.done))throw Error('Migração perde conclusão de hoje');
+if(migrated.activityCycles.weekly.items.some(i=>i.activityId===corridor.id)||JSON.stringify(migrated.activityHistory)!==historyBefore)throw Error('Ciclos/histórico divergentes');
+if(JSON.stringify(prepareState(migrated))!==JSON.stringify(migrated))throw Error('Migração não idempotente');
+AION_STATE.data=migrated;syncActivityCycles(new Date());if(!activityDone(converted))throw Error('Conclusão perdida ao sincronizar');
+var nextDay=new Date(Date.now()+86400000);syncActivityCycles(nextDay);if(activityDone(converted))throw Error('Reset diário não aplicado');
+saveActivity(Object.assign({},converted,{frequency:'weekly'}),converted.id,nextDay);if(prepareState(AION_STATE.data).activities.find(a=>a.id===corridor.id).frequency!=='weekly')throw Error('Edição posterior sobrescrita');
+var earlier=cloneData(legacy);earlier.activityCycles.weekly.items[0].completedAt=new Date(Date.now()-86400000).toISOString();if(prepareState(earlier).activityCycles.daily.items.find(i=>i.activityId===corridor.id).done)throw Error('Conclusão antiga marcada hoje');
+`,ctx);
+console.log('PASS Corredor diário: conversão única, conclusão de hoje, histórico preservado, reset seguinte e edição posterior.');

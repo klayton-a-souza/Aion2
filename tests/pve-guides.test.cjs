@@ -10,7 +10,7 @@ for(const [name,url] of [
   ['MästerFuria','https://aion2.gaming.tools/pt-br/builds/sorcerer/pve']
 ]){
   const c={id:'stable',name,className:'Classe',type:'alt',ilevel:0};ctx.AION_STATE.data.characters=[c];const before=JSON.stringify(ctx.AION_STATE.data);
-  assert.equal(ctx.characterGuideUrl(name),url);const html=ctx.card(c);assert(html.includes('href="'+url+'" target="_blank" rel="noopener noreferrer">Guia <'));assert(!html.includes('Guia PvE'));assert(!html.includes('Guia de evolução'));assert(html.includes('>Perfil <'));assert.equal((html.match(/target="_blank"/g)||[]).length,2);assert.equal(JSON.stringify(ctx.AION_STATE.data),before);
+  assert.equal(ctx.characterGuideUrl(name),url);const html=ctx.card(c);assert(html.includes('href="'+url+'" target="_blank" rel="noopener noreferrer">Guia <'));assert(!html.includes('Guia PvE'));assert(!html.includes('Guia de evolução'));assert(html.includes('>Perfil <'));assert.equal((html.match(/target="_blank"/g)||[]).length,3);assert.equal(JSON.stringify(ctx.AION_STATE.data),before);
 }
 assert.equal(ctx.characterGuideUrl('Outro'),null);assert.equal(ctx.characterGuideUrl('WarriorLord'),null);assert.equal(ctx.characterGuideUrl('MasterFuria'),null);
 assert.equal(ctx.characterGuideUrl(' MA\u0308STERFURIA '),'https://aion2.gaming.tools/pt-br/builds/sorcerer/pve');

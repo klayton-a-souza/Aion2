@@ -77,7 +77,7 @@ O histórico atual e os ciclos são independentes dos planos. Concluir/cancelar/
 
 ## Catálogo Aion 2
 
-Use **Adicionar atividades do catálogo** para consultar os **23 modelos (8 diários e 15 semanais)**. Selecione um ou vários, escolha escopo e personagem por modelo, defina se entram ativos/inativos e confirme o conjunto. Não há inclusão automática. Duplicatas de modelo + escopo + personagem são ignoradas, mesmo renomeadas ou inativas. Tarefas personalizadas não são substituídas.
+Use **Adicionar atividades do catálogo** para consultar os **24 modelos (8 diários e 16 semanais)**. Selecione um ou vários, escolha escopo e personagem por modelo, defina se entram ativos/inativos e confirme o conjunto. Não há inclusão automática. Duplicatas de modelo + escopo + personagem são ignoradas, mesmo renomeadas ou inativas. Tarefas personalizadas não são substituídas.
 
 O botão **Informações** apresenta nome original e indicadores da frequência e escopo cadastrados, seguidos de **O que é?**, **O que preciso fazer?**, **Como acessar?** (quando específico), **Limites e disponibilidade**, **Dicas importantes** e fontes no final. Descrições iguais aparecem uma vez; textos personalizados diferentes são preservados em **Minha descrição**. Requisitos genéricos não confirmados ficam em observação discreta. Atividades manuais mostram apenas seus próprios dados. O catálogo reutiliza a mesma organização; não há alteração do esquema, checklists ou resets. A seção de recursos explica **Energia Odyle**, **Tentativas de Pesadelo** e **Chaves do Festival Shugo**, sem simulação de regeneração.
 
@@ -104,7 +104,7 @@ Use uma aba por vez: a última gravação de duas abas pode sobrescrever altera�
 - `index.html`: entrada estática e sequência de scripts.
 - `css/`: variáveis, base/layout/componentes e estilos dos módulos; `finalization.css` corrige contenção e foco.
 - `data/defaults.js`: modelo inicial, esquema **1.4.0**.
-- `data/activities-catalog.js`: 23 modelos e três recursos locais.
+- `data/activities-catalog.js`: 24 modelos e três recursos locais.
 - `data/character-guides.js`: três guias fixos associados a nomes de personagens.
 - `js/state.js`: estado, validação e migração.
 - `js/storage.js`: leitura/gravação central e erros de persistência.
@@ -150,3 +150,5 @@ Refinamento 02: a suíte contextual cobre seleção persistida sem alterar Princ
 </details>
 
 As sete compras semanais da Associação Brisa estão disponíveis no catálogo: busque por **Brisa**. Há cinco modelos compartilhados (escopo Conta para o servidor acompanhado) e dois por personagem, sem autocoleta de mascote. A inclusão é manual; preços e limites ficam nas informações. A conclusão usa o checkbox existente, sem contador de unidades compradas. A oferta de ressurreição com etapas e temporizador é identificada como condicionada à disponibilidade.
+
+O catálogo inclui **Transcendência — missão semanal**, por personagem: 10 conclusões cumulativas (etapas 3/6/10), sem necessidade de gastar Energia de Od no final, conforme informado pelo usuário. A conclusão é manual, separada dos lembretes de energia.

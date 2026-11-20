@@ -29,19 +29,19 @@ A2.extensions.register("catalog","renderActivities",function(beforeCatalogRender
 // Apply the requested daily checklist once to existing catalog activities.
 // Keep user edits after migration and preserve completions made in today's cycle.
 A2.extensions.register('catalog','prepareState',function(previous){return function(input){
-  var data=previous(input);if(data.preferences.abyssCorridorDailyChecklist===true)return data;
-  var now=new Date(),dailyKey=cycleId('daily',data.resetSettings,now);
-  data.activities.filter(function(a){return a.catalogId==='abyss-corridor'&&a.frequency==='weekly'}).forEach(function(a){
-    var weekly=data.activityCycles.weekly,old=weekly&&weekly.items.find(function(i){return i.activityId===a.id&&i.revision===a.revision});
-    a.frequency='daily';
-    var daily=data.activityCycles.daily;
-    if(!daily||daily.id!==dailyKey){if(daily)data.activityHistory.push(cloneData(daily));daily={id:dailyKey,frequency:'daily',openedAt:now.toISOString(),items:[]};data.activityCycles.daily=daily}
+  var data=previous(input);if(data.preferences.abyssCorridorWeeklyChecklist===true)return data;
+  var now=new Date(),weeklyKey=cycleId('weekly',data.resetSettings,now);
+  data.activities.filter(function(a){return a.catalogId==='abyss-corridor'&&a.frequency==='daily'}).forEach(function(a){
+    var daily=data.activityCycles.daily,old=daily&&daily.items.find(function(i){return i.activityId===a.id&&i.revision===a.revision});
+    a.frequency='weekly';
+    var weekly=data.activityCycles.weekly;
+    if(!weekly||weekly.id!==weeklyKey){if(weekly)data.activityHistory.push(cloneData(weekly));weekly={id:weeklyKey,frequency:'weekly',openedAt:now.toISOString(),items:[]};data.activityCycles.weekly=weekly}
     var item=activitySnapshot(a);
-    if(old&&old.done&&old.completedAt&&cycleId('daily',data.resetSettings,new Date(old.completedAt))===dailyKey){item.done=true;item.completedAt=old.completedAt}
-    daily.items=daily.items.filter(function(i){return i.activityId!==a.id});daily.items.push(item);
-    if(weekly)weekly.items=weekly.items.filter(function(i){return i.activityId!==a.id});
+    if(old&&old.done&&old.completedAt&&cycleId('weekly',data.resetSettings,new Date(old.completedAt))===weeklyKey){item.done=true;item.completedAt=old.completedAt}
+    weekly.items=weekly.items.filter(function(i){return i.activityId!==a.id});weekly.items.push(item);
+    if(daily)daily.items=daily.items.filter(function(i){return i.activityId!==a.id});
   });
-  data.preferences.abyssCorridorDailyChecklist=true;return previous(data);
+  data.preferences.abyssCorridorWeeklyChecklist=true;return previous(data);
 };});
 
 function setupCatalogFilters(root,characters){

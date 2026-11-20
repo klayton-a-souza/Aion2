@@ -77,7 +77,7 @@ O histórico atual e os ciclos são independentes dos planos. Concluir/cancelar/
 
 ## Catálogo Aion 2
 
-Use **Adicionar atividades do catálogo** para consultar os **24 modelos (8 diários e 16 semanais)**. Selecione um ou vários, escolha escopo e personagem por modelo, defina se entram ativos/inativos e confirme o conjunto. Não há inclusão automática. Duplicatas de modelo + escopo + personagem são ignoradas, mesmo renomeadas ou inativas. Tarefas personalizadas não são substituídas.
+Use **Adicionar atividades do catálogo** para consultar os **24 modelos (7 diários e 17 semanais)**. Selecione um ou vários, escolha escopo e personagem por modelo, defina se entram ativos/inativos e confirme o conjunto. Não há inclusão automática. Duplicatas de modelo + escopo + personagem são ignoradas, mesmo renomeadas ou inativas. Tarefas personalizadas não são substituídas.
 
 O botão **Informações** apresenta nome original e indicadores da frequência e escopo cadastrados, seguidos de **O que é?**, **O que preciso fazer?**, **Como acessar?** (quando específico), **Limites e disponibilidade**, **Dicas importantes** e fontes no final. Descrições iguais aparecem uma vez; textos personalizados diferentes são preservados em **Minha descrição**. Requisitos genéricos não confirmados ficam em observação discreta. Atividades manuais mostram apenas seus próprios dados. O catálogo reutiliza a mesma organização; não há alteração do esquema, checklists ou resets. A seção de recursos explica **Energia Odyle**, **Tentativas de Pesadelo** e **Chaves do Festival Shugo**, sem simulação de regeneração.
 

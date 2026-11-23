@@ -6,7 +6,7 @@
 #activities-page .activity-cycle-heading h3{margin:0;font-size:1.2rem}
 #activities-page .activity-cycle>.progress-track+p{font-size:.875rem;margin-bottom:24px}
 #activities-page .activity-list{display:grid;gap:14px}
-#activities-page .objective{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;padding:18px;border:1px solid var(--border);border-radius:12px;background:var(--bg);align-items:start}
+#activities-page .objective{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding:18px;border:1px solid var(--border);border-radius:12px;background:var(--bg);align-items:start}
 #activities-page .objective label{min-width:0;cursor:pointer;font-weight:600;line-height:1.6}
 #activities-page .objective small,#activities-page .activity-description{font-weight:400;margin:8px 0 0 0;font-size:.875rem;line-height:1.6;opacity:1}
 #activities-page .objective small{color:var(--accent-2)}
@@ -14,7 +14,13 @@
 #activities-page .objective .plan-toolbar button{font-size:.8rem;padding:8px 6px;background:var(--surface)}
 #activities-page .objective .plan-toolbar button[data-activity-action="delete"]{color:var(--danger);background:transparent}
 #activities-page .activity-complete{border-left:3px solid var(--accent)}
-@media(max-width:1200px){#activities-page .objective{grid-template-columns:minmax(0,1fr)}#activities-page .objective .plan-toolbar{max-width:420px}}
-@media(max-width:540px){#activities-page .activity-filters{padding:16px}#activities-page .objective{padding:14px;gap:16px}#activities-page .activity-cycle-heading{gap:12px}#activities-page .activity-cycle-heading button{width:100%}#activities-page .objective .plan-toolbar{max-width:none}}
 
-.activity-scope-heading{margin:20px 0 12px;font-size:.9rem;color:var(--accent-2);overflow-wrap:anywhere}
+@media(max-width:540px){#activities-page .activity-filters{padding:16px}#activities-page .objective{padding:14px;gap:6px}#activities-page .activity-cycle-heading{gap:12px}#activities-page .activity-cycle-heading button{width:100%}#activities-page .objective .plan-toolbar{max-width:none}}
+
+.activity-scope-heading{display:flex;align-items:center;gap:12px;margin:12px 0 0;font-size:1rem;color:var(--accent-2);overflow-wrap:anywhere}
+
+#activities-page .plan-toolbar button[data-activity-action="catalog"]{background:var(--accent);color:var(--button-primary-text,var(--bg));border-color:var(--accent);font-weight:700}
+#activities-page .plan-toolbar button[data-activity-action="catalog"]:hover:not(:disabled){filter:brightness(1.08)}
+
+.activity-scope-heading::after{content:"";height:1px;flex:1;background:var(--border)}
+#activities-page .activity-row-tools[open]{border-top:1px solid var(--border);margin-top:6px}

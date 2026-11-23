@@ -7,7 +7,7 @@ function catalogDetails(m,a){var seen=[],html='',notes=[];function section(title
 if(!a)html+=(m.englishName?'<p class="information-original">'+esc(m.englishName)+'</p>':'')+informationMetadata(m,null);
 var custom=a&&informationText(a.description)&&informationText(a.description)!==informationText(m.description);if(custom)section('Minha descrição',a.description);section('O que é?',m.description);section('O que preciso fazer?',m.objective);
 if(m.unlock&&/requisitos específicos não confirmados|depende dos requisitos de acesso/i.test(m.unlock))notes.push(m.unlock);else section('Como acessar?',m.unlock);
-section('Limites e disponibilidade',m.limits);section('Dicas importantes',m.guidance,'information-guidance');
+section('Limites e disponibilidade',m.limits);section('Recompensas',m.rewards);section('Dicas importantes',m.guidance,'information-guidance');
 if(a&&a.frequency!==m.frequency)notes.push('O checklist está configurado como '+(a.frequency==='daily'?'diário':'semanal')+'; a sugestão do catálogo é '+(m.frequency==='daily'?'diária':'semanal')+'. Sua configuração foi preservada.');
 notes.push('A frequência do checklist é um lembrete de acompanhamento, não uma obrigação nem garantia de disponibilidade do conteúdo.');
 html+=notes.map(function(note){return '<p class="information-observation">'+esc(note)+'</p>'}).join('');return '<div class="catalog-info">'+html+catalogSources(m.sources)+'</div>'}
@@ -19,17 +19,25 @@ function addCatalogSelection(selection,active,now){
     selection.forEach(function(s){var m=catalogModel(s.modelId);if(catalogDuplicate(m.id,s.scope,s.characterId)){skipped++;return}var a=saveActivity({name:m.name,description:m.description,category:m.category||'Catálogo Aion 2',scope:s.scope,characterId:s.characterId,frequency:m.frequency},null,now);a.catalogId=m.id;a.active=active!==false;added++});syncActivityCycles(now);prepareState(AION_STATE.data);return {added:added,skipped:skipped};
   }catch(e){AION_STATE.data=before;throw e}
 }
-function openCatalog(){var r=document.getElementById('activity-dialog'),chars=AION_STATE.data.characters,options='<option value="">Selecione um personagem</option>'+chars.map(function(c){return '<option value="'+esc(c.id)+'">'+esc(c.name)+'</option>'}).join('');r.innerHTML='<form class="modal plan-editor catalog-modal" role="dialog" aria-modal="true" aria-label="Catálogo de atividades"><h2>Catálogo de atividades</h2><p class="catalog-note">'+ACTIVITIES_CATALOG.length+' modelos: '+ACTIVITIES_CATALOG.filter(function(m){return m.frequency==='daily'}).length+' diários e '+ACTIVITIES_CATALOG.filter(function(m){return m.frequency==='weekly'}).length+' semanais. Frequências são sugestões de acompanhamento; recursos acumuláveis e eventos não são obrigações diárias. Os modelos usam seus resets atuais e não alteram horários.</p><div class="plan-toolbar"><button type="button" id="catalog-all">Selecionar todos</button><button type="button" id="catalog-none">Limpar seleção</button></div><label class="checkbox-label"><input type="checkbox" id="catalog-active" checked> Adicionar como atividades ativas</label><div class="catalog-list">'+ACTIVITIES_CATALOG.map(function(m,i){return '<article class="catalog-item" data-model="'+m.id+'"><label class="catalog-select"><input type="checkbox" class="catalog-picked" value="'+m.id+'">'+String(i+1).padStart(2,'0')+' — '+esc(m.name)+'</label><details><summary>Informações e orientações</summary>'+catalogDetails(m)+'</details><div class="form-grid"><label>Escopo<select class="catalog-scope"><option value="account"'+(m.scope==='account'?' selected':'')+'>Conta</option><option value="character"'+(m.scope==='character'?' selected':'')+'>Personagem</option></select></label><label>Personagem<select class="catalog-character"'+(m.scope==='account'?' disabled':'')+'>'+options+'</select></label></div></article>'}).join('')+'</div><div class="modal-actions catalog-actions"><p id="catalog-error" class="form-error" role="alert" tabindex="-1" hidden></p><button type="button" class="button button-ghost" id="catalog-cancel">Cancelar</button><button class="button button-primary">Adicionar selecionadas</button></div></form>';r.hidden=false;setupCatalogFilters(r,chars);
-  r.querySelectorAll('.catalog-item').forEach(function(row){row.querySelector('.catalog-scope').onchange=function(){row.querySelector('.catalog-character').disabled=row.querySelector('.catalog-scope').value==='account'}});document.getElementById('catalog-all').onclick=function(){r.querySelectorAll('.catalog-item').forEach(function(row){if(!row.hidden)row.querySelector('.catalog-picked').checked=true});if(r.updateCatalogStatus)r.updateCatalogStatus()};document.getElementById('catalog-none').onclick=function(){r.querySelectorAll('.catalog-picked').forEach(function(b){b.checked=false});if(r.updateCatalogStatus)r.updateCatalogStatus()};document.getElementById('catalog-cancel').onclick=function(){r.hidden=true};r.querySelector('form').onsubmit=function(e){e.preventDefault();var selected=[];r.querySelectorAll('.catalog-item').forEach(function(row){if(row.querySelector('.catalog-picked').checked)selected.push({modelId:row.dataset.model,scope:row.querySelector('.catalog-scope').value,characterId:row.querySelector('.catalog-character').value})});var error=document.getElementById('catalog-error');error.textContent='';error.hidden=true;if(!selected.length){showCatalogError('Selecione ao menos um modelo.');return}if(selected.some(function(s){return s.scope==='character'&&!chars.some(function(c){return c.id===s.characterId})})){showCatalogError('Escolha o personagem de cada modelo individual selecionado.');return}var existing=selected.filter(function(s){return catalogDuplicate(s.modelId,s.scope,s.characterId)}).length;if(existing===selected.length){showCatalogError('Todos os modelos selecionados já estão cadastrados nesses escopos e personagens (inclusive inativos).');return}var names=selected.map(function(s){var c=chars.find(function(x){return x.id===s.characterId});return catalogModel(s.modelId).name+' — '+(s.scope==='account'?'Conta':c.name)}).join('\n');if(!window.confirm('Adicionar '+(selected.length-existing)+' atividade(s) do catálogo? '+existing+' duplicata(s) serão ignoradas.\n\n'+names))return;if(activityMutation(function(){addCatalogSelection(selected,document.getElementById('catalog-active').checked)}))r.hidden=true;else showCatalogError('Não foi possível adicionar as atividades. Confira o aviso de erro e tente novamente.')};document.getElementById('catalog-all').focus()
+function openCatalog(destination){var r=document.getElementById('activity-dialog'),chars=AION_STATE.data.characters,options='<option value="">Selecione um personagem</option>'+chars.map(function(c){return '<option value="'+esc(c.id)+'">'+esc(c.name)+'</option>'}).join('');r.innerHTML='<form class="modal plan-editor catalog-modal" role="dialog" aria-modal="true" aria-label="Catálogo de atividades"><h2>Catálogo de atividades</h2><p class="catalog-note">'+ACTIVITIES_CATALOG.length+' modelos: '+ACTIVITIES_CATALOG.filter(function(m){return m.frequency==='daily'}).length+' diários e '+ACTIVITIES_CATALOG.filter(function(m){return m.frequency==='weekly'}).length+' semanais. Frequências são sugestões de acompanhamento; recursos acumuláveis e eventos não são obrigações diárias. Os modelos usam seus resets atuais e não alteram horários.</p><div class="plan-toolbar"><button type="button" id="catalog-all">Selecionar todos</button><button type="button" id="catalog-none">Limpar seleção</button></div><label class="checkbox-label"><input type="checkbox" id="catalog-active" checked> Adicionar como atividades ativas</label><div class="catalog-list">'+ACTIVITIES_CATALOG.map(function(m){return '<article class="catalog-item" data-model="'+m.id+'"><label class="catalog-select"><input type="checkbox" class="catalog-picked" value="'+m.id+'">'+esc(m.name)+'</label><details><summary>Informações e orientações</summary>'+catalogDetails(m)+'</details><div class="form-grid"><label>Escopo<select class="catalog-scope"><option value="account"'+(m.scope==='account'?' selected':'')+'>Conta</option><option value="character"'+(m.scope==='character'?' selected':'')+'>Personagem</option></select></label><label>Personagem<select class="catalog-character"'+(m.scope==='account'?' disabled':'')+'>'+options+'</select></label></div></article>'}).join('')+'</div><div class="modal-actions catalog-actions"><p id="catalog-error" class="form-error" role="alert" tabindex="-1" hidden></p><button type="button" class="button button-ghost" id="catalog-cancel">Cancelar</button><button class="button button-primary">Adicionar selecionadas</button></div></form>';r.hidden=false;setupCatalogFilters(r,chars);
+  if(destination!==undefined)configureRoutineCatalog(r,destination);
+  r.querySelectorAll('.catalog-item').forEach(function(row){row.querySelector('.catalog-scope').onchange=function(){row.querySelector('.catalog-character').disabled=row.querySelector('.catalog-scope').value==='account'}});document.getElementById('catalog-all').onclick=function(){r.querySelectorAll('.catalog-item').forEach(function(row){if(!row.hidden&&!row.querySelector('.catalog-picked').disabled)row.querySelector('.catalog-picked').checked=true});if(r.updateCatalogStatus)r.updateCatalogStatus()};document.getElementById('catalog-none').onclick=function(){r.querySelectorAll('.catalog-picked').forEach(function(b){b.checked=false});if(r.updateCatalogStatus)r.updateCatalogStatus()};document.getElementById('catalog-cancel').onclick=function(){r.hidden=true};r.querySelector('form').onsubmit=function(e){e.preventDefault();var selected=[];r.querySelectorAll('.catalog-item').forEach(function(row){if(row.querySelector('.catalog-picked').checked)selected.push({modelId:row.dataset.model,scope:row.querySelector('.catalog-scope').value,characterId:row.querySelector('.catalog-character').value})});var error=document.getElementById('catalog-error');error.textContent='';error.hidden=true;if(!selected.length){showCatalogError('Selecione ao menos um modelo.');return}if(selected.some(function(s){return s.scope==='character'&&!chars.some(function(c){return c.id===s.characterId})})){showCatalogError('Escolha o personagem de cada modelo individual selecionado.');return}var existing=selected.filter(function(s){return catalogDuplicate(s.modelId,s.scope,s.characterId)}).length;if(existing===selected.length){showCatalogError('Todos os modelos selecionados já estão cadastrados nesses escopos e personagens (inclusive inativos).');return}var names=selected.map(function(s){var c=chars.find(function(x){return x.id===s.characterId});return catalogModel(s.modelId).name+' — '+(s.scope==='account'?'Conta':c.name)}).join('\n');if(!window.confirm('Adicionar '+(selected.length-existing)+' atividade(s) do catálogo? '+existing+' duplicata(s) serão ignoradas.\n\n'+names))return;if(activityMutation(function(){addCatalogSelection(selected,document.getElementById('catalog-active').checked)}))r.hidden=true;else showCatalogError('Não foi possível adicionar as atividades. Confira o aviso de erro e tente novamente.')};(document.getElementById('catalog-search')||document.getElementById('catalog-all')).focus()
 }
 function showActivityInformation(a){var r=document.getElementById('activity-dialog'),m=catalogModel(a.catalogId),body=m?catalogDetails(m,a):(a.description&&a.description.trim()?'<section class="information-section"><h3>Minha descrição</h3><p>'+esc(a.description)+'</p></section>':'');r.innerHTML='<section class="modal plan-editor activity-information-modal" role="dialog" aria-modal="true" aria-labelledby="activity-information-title"><header class="information-header"><div><h2 id="activity-information-title">'+esc(a.name)+'</h2>'+(m&&m.englishName?'<p class="information-original">'+esc(m.englishName)+'</p>':'')+'</div><button type="button" class="button button-ghost" id="catalog-info-close" aria-label="Fechar informações da atividade">Fechar</button></header>'+informationMetadata(m,a)+body+'</section>';r.hidden=false;document.getElementById('catalog-info-close').onclick=function(){r.hidden=true};document.getElementById('catalog-info-close').focus()}
-A2.extensions.register("catalog","activityAction",function(beforeCatalogAction){return function(action,id){if(action==='catalog')return openCatalog();if(action==='info'){var a=AION_STATE.data.activities.find(function(x){return x.id===id});if(a)return showActivityInformation(a);return}beforeCatalogAction(action,id)};});
+A2.extensions.register("catalog","activityAction",function(beforeCatalogAction){return function(action,id){if(action==='catalog')return openCatalog(activityFilters.character);if(action==='info'){var a=AION_STATE.data.activities.find(function(x){return x.id===id});if(a)return showActivityInformation(a);return}beforeCatalogAction(action,id)};});
 A2.extensions.register("catalog","renderActivities",function(beforeCatalogRender){return function(){var resourceFocus=panelFocusToken(document.getElementById('activities-page'));rememberSectionExpansion('resources',document.getElementById('activities-page'));beforeCatalogRender();var page=document.getElementById('activities-page');if(!page)return;var resources=document.createElement('section');resources.className='plan-panel catalog-resources';resources.innerHTML='<h3>Recursos importantes · Referência</h3><p class="catalog-note">Informações locais. Limites podem variar por versão e condições da conta. Sem simulação ou leitura do jogo.</p>'+CATALOG_RESOURCES.map(function(resource){return '<details class="stage-panel" data-expansion-id="'+esc(resource.id)+'"><summary>'+esc(resource.name)+'</summary><p>'+esc(resource.description)+'</p><p>'+esc(resource.reference)+'</p><p>'+esc(resource.guidance)+'</p>'+catalogSources(resource.sources)+'</details>'}).join('');page.appendChild(resources);restoreSectionExpansion('resources',page);if(resourceFocus&&resourceFocus.expansion)restorePanelFocus(page,resourceFocus)};});
 
-// Apply the requested daily checklist once to existing catalog activities.
-// Keep user edits after migration and preserve completions made in today's cycle.
+// Apply the weekly checklist once and preserve completions within the current week.
 A2.extensions.register('catalog','prepareState',function(previous){return function(input){
-  var data=previous(input);if(data.preferences.abyssCorridorWeeklyChecklist===true)return data;
+  var data=previous(input);
+  var retired=new Set(data.activities.filter(function(a){return a.catalogId==='stigma-shards'}).map(function(a){return a.id}));
+  if(retired.size){
+    data.activities=data.activities.filter(function(a){return !retired.has(a.id)});
+    renumber(data.activities);
+    ['daily','weekly'].forEach(function(f){var cycle=data.activityCycles[f];if(cycle)cycle.items=cycle.items.filter(function(item){return !retired.has(item.activityId)})});
+    if(data.eventCalendar)data.eventCalendar.events.forEach(function(event){if(retired.has(event.activityId))event.activityId=null});
+  }
+  if(data.preferences.abyssCorridorWeeklyChecklist===true)return data;
   var now=new Date(),weeklyKey=cycleId('weekly',data.resetSettings,now);
   data.activities.filter(function(a){return a.catalogId==='abyss-corridor'&&a.frequency==='daily'}).forEach(function(a){
     var daily=data.activityCycles.daily,old=daily&&daily.items.find(function(i){return i.activityId===a.id&&i.revision===a.revision});
@@ -57,4 +65,61 @@ function setupCatalogFilters(root,characters){
   root.querySelector('#catalog-all').textContent='Selecionar exibidas';
   root.querySelector('#catalog-apply-character').onclick=function(){var id=root.querySelector('#catalog-bulk-character').value,targets=rows.filter(function(row){return row.querySelector('.catalog-picked').checked&&row.querySelector('.catalog-scope').value==='character'});if(!id){showCatalogError('Selecione o personagem para aplicar às atividades.');return}if(!targets.length){showCatalogError('Selecione ao menos uma atividade com escopo Personagem.');return}targets.forEach(function(row){row.querySelector('.catalog-character').value=id});root.querySelector('#catalog-error').hidden=true;root.querySelector('#catalog-selection-status').textContent='Personagem aplicado a '+targets.length+' atividades selecionadas.'};
   root.updateCatalogStatus();
+}
+function configureRoutineCatalog(root, characterId){
+  var scope=characterId?'character':'account';
+  root.querySelector('h2').textContent=routineAddLabel();
+  root.querySelector('.catalog-bulk').hidden=true;
+  root.querySelectorAll('.catalog-item').forEach(function(row){
+    row.querySelector('.catalog-scope').value=scope;
+    row.querySelector('.catalog-character').value=characterId;
+    row.querySelector('.form-grid').hidden=true;
+    if(catalogDuplicate(row.dataset.model,scope,characterId)){
+      row.querySelector('.catalog-picked').disabled=true;
+      row.querySelector('.catalog-select').append(' · Já está nesta rotina');
+    }
+  });
+}
+
+function openRoutineLinks(activity){
+  var data=AION_STATE.data,region=document.getElementById('activity-dialog');
+  function related(item){
+    return activity.catalogId?item.catalogId===activity.catalogId:
+      item.id===activity.id||activity.routineGroup&&item.routineGroup===activity.routineGroup;
+  }
+  var owners=[{id:null,name:'Conta compartilhada'}].concat(routineOwners().filter(function(owner){return !owner.removed||data.activities.some(function(item){return related(item)&&item.characterId===owner.id})}));
+  var existing=data.activities.filter(related);
+  var rows=owners.map(function(owner,index){
+    var linked=existing.some(function(item){return item.characterId===owner.id});
+    return '<label class="checkbox-label"><input type="checkbox" value="'+index+'"'+(linked?' checked':'')+'>'+esc(owner.name)+'</label>';
+  }).join('');
+  region.innerHTML='<form class="modal plan-editor" role="dialog" aria-modal="true" aria-labelledby="routine-links-title"><h2 id="routine-links-title">Gerenciar vínculos</h2><p>'+esc(activity.name)+'</p><fieldset class="routine-link-options"><legend>Rotinas vinculadas</legend>'+rows+'</fieldset><p role="status"></p><div class="modal-actions"><button type="button" class="button button-ghost">Cancelar</button><button class="button button-primary" disabled>Salvar vínculos</button></div></form>';
+  region.hidden=false;
+  var form=region.querySelector('form'),inputs=Array.from(form.querySelectorAll('input'));
+  function changes(){return inputs.filter(function(input){return input.checked!==input.defaultChecked})}
+  form.onchange=function(){
+    var edits=changes();
+    form.querySelector('.button-primary').disabled=!edits.length;
+    form.querySelector('[role=status]').textContent=edits.map(function(input){return (input.checked?'Adicionar a ':'Remover de ')+owners[input.value].name}).join(' · ');
+  };
+  form.querySelector('[type=button]').onclick=function(){region.hidden=true};
+  form.onsubmit=function(event){
+    event.preventDefault();
+    if(activityMutation(function(){
+      var group=activity.routineGroup||activity.id;
+      if(!activity.catalogId)activity.routineGroup=group;
+      changes().forEach(function(input){
+        var owner=owners[input.value],scope=owner.id?'character':'account';
+        if(input.checked){
+          if(activity.catalogId)addCatalogSelection([{modelId:activity.catalogId,scope:scope,characterId:owner.id}],activity.active);
+          else{
+            var copy=saveActivity(Object.assign({},activity,{scope:scope,characterId:owner.id}));
+            copy.routineGroup=group;copy.active=activity.active;
+          }
+        }else data.activities=data.activities.filter(function(item){return !(related(item)&&item.characterId===owner.id)});
+        renumber(data.activities);
+      });
+    }))region.hidden=true;
+  };
+  inputs[0].focus();
 }

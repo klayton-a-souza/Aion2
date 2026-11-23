@@ -85,3 +85,4 @@
   #dashboard-page .next-action-panel{padding:18px}
   #dashboard-page .next-action-panel .button-primary{width:100%}
 }
+.dashboard-activity-category{font-size:.875rem;margin:12px 0 6px;color:var(--text)}

@@ -5,8 +5,8 @@ function dashboardActivityHtml(c){
   if(!all.length)html+='<p>Não existem atividades recorrentes configuradas para este personagem.</p>';
   ['daily','weekly'].forEach(function(f){
     html+='<section class="dashboard-activity-group" aria-labelledby="dashboard-frequency-'+f+'"><div class="dashboard-activity-heading"><h4 id="dashboard-frequency-'+f+'">'+(f==='daily'?'Diárias':'Semanais')+'</h4>'+activityVisibilityButton('dashboard',f)+'</div>'+progressBar(activityStats(f,c.id))+'<div id="dashboard-activity-list-'+f+'"'+(activityVisibility.dashboard[f]?' hidden':'')+'>';
-    var items=characterActivitiesFirst(all.filter(function(a){return a.frequency===f}));
-    items.forEach(function(a,index){if(index===0||items[index-1].scope!==a.scope)html+='<h5 class="activity-scope-heading">'+(a.scope==='character'?'Por personagem':'Conta compartilhada')+'</h5>';html+='<label class="dashboard-check"><input type="checkbox" data-dashboard-activity="'+esc(a.id)+'"'+(activityDone(a)?' checked':'')+'><span>'+esc(a.name)+'<small>'+esc(a.scope==='account'?'Conta compartilhada':c.name)+(a.category?' · '+esc(a.category):'')+'</small>'+(a.description?'<small>'+esc(a.description)+'</small>':'')+'</span></label>'});
+    var items=characterActivitiesFirst(groupRoutineActivities(all.filter(function(a){return a.frequency===f})));
+    items.forEach(function(a,index){if(index===0||items[index-1].scope!==a.scope)html+='<h5 class="activity-scope-heading">'+(a.scope==='character'?'Por personagem':'Conta compartilhada')+'</h5>';var group=activitySubcategory(a);if(index===0||items[index-1].scope!==a.scope||activitySubcategory(items[index-1])!==group)html+='<h6 class="dashboard-activity-category">'+group+'</h6>';html+='<label class="dashboard-check"><input type="checkbox" data-dashboard-activity="'+esc(a.id)+'"'+(activityDone(a)?' checked':'')+'><span>'+esc(a.name)+'<small>'+esc(a.scope==='account'?'Conta compartilhada':c.name)+(a.category?' · '+esc(a.category):'')+'</small>'+(a.description?'<small>'+esc(a.description)+'</small>':'')+'</span></label>'});
     if(!items.length)html+='<p>Nenhuma atividade ativa nesta frequência.</p>';
     html+='</div></section>';
   });

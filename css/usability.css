@@ -42,3 +42,5 @@
 @media(max-width:760px){.character-portrait-placeholder{aspect-ratio:auto;min-height:64px;padding:12px}.catalog-filters{grid-template-columns:1fr}.toast-region.modal-active{top:8px;left:8px;right:8px}.catalog-bulk button{width:100%}}
 
 .toast-region.modal-active .toast:not(.error){display:none}
+
+.activity-row-tools>summary:focus-visible,#activity-character:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px;border-radius:4px}

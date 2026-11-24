@@ -1,0 +1,27 @@
+[1124/074009.665:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074010.069:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074010.580:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074155.533:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074155.538:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074155.558:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074303.672:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074303.678:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074303.680:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074303.684:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074303.703:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074303.704:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074303.778:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074303.781:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074303.803:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074337.275:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074337.284:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074337.305:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074413.480:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074413.480:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074413.506:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074413.507:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074413.507:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.
+[1124/074413.508:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074413.534:ERROR:ui\gl\angle_platform_impl.cc:34] vulkan_icd.cpp:157 (angle::vk::ScopedVkLoaderEnvironment::ScopedVkLoaderEnvironment): Error setting CWD for Vulkan layers init.
+[1124/074413.536:WARNING:net\dns\dns_config_service_win.cc:607] Failed to read DnsConfig.
+[1124/074413.554:WARNING:ui\gl\angle_platform_impl.cc:39] vulkan_icd.cpp:391 (angle::vk::ChoosePhysicalDevice): Preferred device ICD not found. Using default physicalDevice instead.

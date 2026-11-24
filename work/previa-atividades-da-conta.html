@@ -1,0 +1,142 @@
+<div id="a2-previa-rotina" class="viz-dotted-background" lang="pt-BR">
+  <style>
+    #a2-previa-rotina {padding:clamp(4px,2vw,16px);font-family:Inter,"Segoe UI",sans-serif}
+    #a2-previa-rotina * {box-sizing:border-box}
+    #a2-previa-rotina .panel {
+      --surface:light-dark(#faf7f1,#1a1815);--tile:light-dark(#fffcf7,#211e19);--ink:light-dark(#31291f,#f1ede6);
+      --muted-ink:light-dark(#665b4b,#bbafa0);--line:light-dark(#d9cfc0,#40392f);--gold:light-dark(#785728,#ddbb83);
+      --selected:light-dark(#f4e9d5,#2e271e);--ok:light-dark(#426146,#acc5a2);
+      background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,3.5vw,28px);
+      font-size:14px;line-height:1.45
+    }
+    #a2-previa-rotina .context {color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;margin:0 0 5px}
+    #a2-previa-rotina h2 {font:650 clamp(24px,4.8vw,33px)/1.15 Inter,"Segoe UI",sans-serif;letter-spacing:-.035em;color:var(--ink);margin:0}
+    #a2-previa-rotina .summary {display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 19px;color:var(--muted-ink)}
+    #a2-previa-rotina .summary b {font-weight:650;color:var(--ink)}
+    #a2-previa-rotina .cycles {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    #a2-previa-rotina .cycle {display:grid;gap:8px;padding:13px 15px;text-align:start;color:var(--ink);background:var(--tile);border:1px solid var(--line);border-radius:10px;font:inherit}
+    #a2-previa-rotina .cycle[aria-pressed="true"] {border-color:var(--gold);background:var(--selected)}
+    #a2-previa-rotina .cycle:hover {border-color:var(--gold)}
+    #a2-previa-rotina .cycle:focus-visible,#a2-previa-rotina input:focus-visible {outline:2px solid var(--gold);outline-offset:3px}
+    #a2-previa-rotina .cycle-name {display:flex;gap:7px;align-items:center;font-weight:600}
+    #a2-previa-rotina .cycle-name svg {width:16px;height:16px;color:var(--gold)}
+    #a2-previa-rotina .cycle-value {font-variant-numeric:tabular-nums;display:flex;align-items:baseline;flex-wrap:wrap;gap:5px;color:var(--muted-ink)}
+    #a2-previa-rotina .cycle-value strong {font-size:24px;color:var(--ink);font-weight:600;line-height:1}
+    #a2-previa-rotina .track {height:4px;background:var(--line);border-radius:6px;overflow:hidden}
+    #a2-previa-rotina .track span {height:100%;display:block;background:var(--gold)}
+    #a2-previa-rotina .toolbar {display:flex;gap:8px 20px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:20px 0 6px}
+    #a2-previa-rotina h3 {font:600 17px/1.3 Inter,"Segoe UI",sans-serif;margin:0;color:var(--ink)}
+    #a2-previa-rotina label {display:inline-flex;gap:8px;align-items:center;color:var(--ink);font-size:13px;min-height:44px}
+    #a2-previa-rotina input {width:16px;height:16px;margin:0;accent-color:var(--gold)}
+    #a2-previa-rotina ul {margin:0;padding:0;list-style:none}
+    #a2-previa-rotina li {padding:14px 0;border-top:1px solid var(--line)}
+    #a2-previa-rotina li:last-child {padding-bottom:0}
+    #a2-previa-rotina .item-heading {display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+    #a2-previa-rotina .item-heading strong {font-weight:600}
+    #a2-previa-rotina .fraction {color:var(--muted-ink);white-space:nowrap;font-variant-numeric:tabular-nums;font-size:13px}
+    #a2-previa-rotina .assignees {display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:6px;color:var(--ink);font-size:13px}
+    #a2-previa-rotina .status {display:inline-flex;align-items:baseline;gap:5px}
+    #a2-previa-rotina .status b {font-weight:600}
+    #a2-previa-rotina .pending {color:var(--gold)}
+    #a2-previa-rotina .done {color:var(--ok)}
+    @media(max-width:430px) {
+      #a2-previa-rotina .cycle {padding:11px}
+      #a2-previa-rotina .assignees {flex-direction:column}
+      #a2-previa-rotina .toolbar {gap:0 8px}
+    }
+  </style>
+  <section class="panel" aria-label="Visão geral das atividades da conta">
+    <p class="context">Atividades recorrentes</p>
+    <h2>Visão geral da conta</h2>
+    <p class="summary"><span><b data-total></b> conclusões no ciclo atual</span><span aria-hidden="true">·</span><span>3 personagens</span></p>
+    <div class="cycles" role="group" aria-label="Escolher frequência">
+      <button type="button" class="cycle cursor-interaction" data-period="daily" aria-controls="a2-rows">
+        <span class="cycle-name"><i data-lucide="sun" aria-hidden="true"></i>Diárias</span>
+        <span class="cycle-value"></span><span class="track" aria-hidden="true"><span></span></span>
+      </button>
+      <button type="button" class="cycle cursor-interaction" data-period="weekly" aria-controls="a2-rows">
+        <span class="cycle-name"><i data-lucide="calendar-days" aria-hidden="true"></i>Semanais</span>
+        <span class="cycle-value"></span><span class="track" aria-hidden="true"><span></span></span>
+      </button>
+    </div>
+    <div class="toolbar">
+      <h3></h3>
+      <label class="cursor-interaction"><input type="checkbox">Só pendentes</label>
+    </div>
+    <ul id="a2-rows" aria-live="polite"></ul>
+  </section>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('a2-previa-rotina');
+  const characters = ['L0rdFuria', 'LadyFuria', 'WarriorL0rd'];
+  const account = ['Conta'];
+  const activities = {
+    daily: [
+      { name: 'Utilizar Energia Odyle', owners: characters, done: [true, true, false] },
+      { name: 'Pesadelo', owners: characters, done: [true, false, false] },
+      { name: 'Deveres do Diário', owners: account, done: [true] }
+    ],
+    weekly: [
+      { name: 'Raide do Santuário', owners: characters, done: [true, false, true] },
+      { name: 'Pergaminhos de Comando', owners: account, done: [false] }
+    ]
+  };
+  const rows = root.querySelector('ul');
+  const filter = root.querySelector('input');
+  const buttons = root.querySelectorAll('[data-period]');
+  let period = 'daily';
+
+  function render() {
+    let total = 0;
+    let completed = 0;
+    for (const button of buttons) {
+      const key = button.dataset.period;
+      const items = activities[key].flatMap(activity => activity.done);
+      const count = items.filter(Boolean).length;
+      total += items.length;
+      completed += count;
+      button.setAttribute('aria-pressed', String(key === period));
+      button.querySelector('.cycle-value').innerHTML = '<strong>' + count + '</strong> de ' + items.length + ' concluídas';
+      button.querySelector('.track span').style.width = (100 * count / items.length) + '%';
+    }
+    root.querySelector('[data-total]').textContent = completed + ' de ' + total;
+    root.querySelector('h3').textContent = period === 'daily' ? 'Atividades diárias' : 'Atividades semanais';
+    const visible = activities[period].filter(activity => !filter.checked || activity.done.includes(false));
+    rows.innerHTML = visible.map(activity => {
+      const pending = activity.owners.filter((_, i) => !activity.done[i]);
+      const done = activity.owners.filter((_, i) => activity.done[i]);
+      const statuses = [];
+      if (pending.length) statuses.push(statusLine('pending', 'Pendente', pending));
+      if (done.length && !filter.checked) statuses.push(statusLine('done', 'Concluído', done));
+      return '<li><div class="item-heading"><strong>' + activity.name + '</strong><span class="fraction">' +
+        done.length + '/' + activity.owners.length + '</span></div><div class="assignees">' + statuses.join('') + '</div></li>';
+    }).join('');
+  }
+
+  function statusLine(css, label, owners) {
+    const marker = css === 'done' ? '✓' : '◷';
+    return '<span class="status"><b class="' + css + '"><span aria-hidden="true">' + marker + '</span> ' +
+      label + '</b><span>· ' + owners.join(', ') + '</span></span>';
+  }
+
+  function restore(saved) {
+    period = saved?.privateContent?.period === 'weekly' ? 'weekly' : 'daily';
+    filter.checked = saved?.privateContent?.pending === true;
+    render();
+  }
+  function update() {
+    render();
+    window.openai?.setWidgetState?.({ privateContent: { period, pending: filter.checked } })?.catch(() => {});
+  }
+  buttons.forEach(button => button.addEventListener('click', () => {
+    period = button.dataset.period;
+    update();
+  }));
+  filter.addEventListener('change', update);
+  window.addEventListener('openai:set_globals', event => {
+    if (event.detail?.globals && 'widgetState' in event.detail.globals) restore(event.detail.globals.widgetState);
+  });
+  restore(window.openai?.widgetState);
+})();
+</script>

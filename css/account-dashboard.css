@@ -73,3 +73,49 @@
 /* Overview without permanent planning: two totals and one activity column. */
 #account-dashboard .account-totals{grid-template-columns:repeat(2,minmax(0,1fr))}
 #account-checklists .card-grid{grid-template-columns:minmax(0,1fr)}
+
+.account-routine-shortcuts, .routine-toolbar, .routine-owners, .routine-row-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.account-routine-shortcuts { margin-top: 12px; gap: 8px; }
+#account-dashboard #account-routine-title { font-size: clamp(1.4rem, 3vw, 2rem); }
+.routine-totals { color: var(--muted); margin: 6px 0 18px; }
+.routine-totals strong, .routine-cycle-count strong { color: var(--text); }
+.routine-cycles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.routine-cycle {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+.routine-cycle:hover, .routine-cycle[aria-pressed="true"] { border-color: var(--accent); }
+.routine-cycle[aria-pressed="true"] { background: var(--surface-2); }
+.routine-cycle-name { font-weight: 600; }
+.routine-cycle-name span, .routine-pending { color: var(--accent-2); }
+.routine-cycle-count, .routine-count { color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
+.routine-cycle-count strong { font-size: 1.5rem; }
+.routine-cycle .account-meter { height: 4px; align-self: end; }
+.routine-toolbar { justify-content: space-between; margin: 16px 0 4px; }
+.routine-toolbar label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
+.routine-toolbar input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+#account-routine-overview :is(input, h2):focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+#account-routine-results ul { list-style: none; padding: 0; margin: 0; }
+#account-routine-results li { padding: 12px 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
+#account-routine-results li:last-child { padding-bottom: 0; }
+#account-routine-results .account-empty { margin: 8px 0 0; }
+.routine-row-heading { flex-wrap: nowrap; justify-content: space-between; align-items: baseline; }
+.routine-count { white-space: nowrap; }
+.routine-owners { align-items: baseline; margin-top: 4px; font-size: .875rem; }
+.routine-done { color: #acc5a2; }
+@media (max-width: 480px) {
+  .routine-cycle { padding: 10px; }
+  .routine-owners { flex-direction: column; gap: 3px; }
+}
